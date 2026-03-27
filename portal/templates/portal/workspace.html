@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/workspace_style.css' %}">
+    <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <title>Document</title>
+</head>
+<body>
+  <nav class="navbar container-fluid p-2">
+
+    <section>
+      <a href="{% url 'users_view' %}" class="users-view">
+        <img src="{% static 'images/icons/users.svg' %}" alt="users">
+      </a>
+    </section>
+
+    <section class="btn-group dropdown m-1 gap-3 border-bottom border-white">
+      <button class="btn dropdown-toggle profile-picture-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <img src="" alt="profile_picture">
+      </button>
+      <ul class="dropdown-menu dropdown-menu-start">
+        <li><a class="dropdown-item d-flex flex-row flex-wrap gap-2" href="#">
+          <div class="dropdown-icons">{% include 'portal/icons/gear.html' %}</div>
+          <span>Setting</span>
+        </a></li>
+        <li><a class="dropdown-item d-flex flex-row gap-2" href="#">
+          <div class="dropdown-icons">{% include 'portal/icons/person_head_and_body.html' %}</div>
+          <span class="d-flex flex-wrap">Personal Information & Account</span>
+        </a></li>
+        <li><a class="dropdown-item d-flex flex-row gap-2" href="#">
+          <div class="dropdown-icons">{% include 'portal/icons/paintbrush.html' %}</div>
+          <span>Theme</span>
+        </a></li>
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn">
+              <div class="dropdown-icons">{% include 'portal/icons/power_off.html' %}</div>
+              Logout
+            </button>
+          </form>
+        </li>
+      </ul>
+    </section>
+
+
+
+
+
+
+
+  </nav>
+  <main class="bg-success">
+
+    <form action="{% url 'workspace' %}" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+
+  </main>
+</body>
+</html>

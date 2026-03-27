@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <title>Login Page</title>
+
+    <style>
+      body{
+        background-image: url("{% static 'images/backgrounds/login_page_bg.png' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      main{
+        background: linear-gradient(rgb(167, 167, 236), white);
+      }
+      
+    </style>
+</head>
+<body class="d-flex vh-100">
+  <main class="m-auto rounded shadow p-4">
+    <div class="d-flex flex-column gap-3 align-items-center">
+      <h2>Log into your account</h2> 
+      {% if messages %}
+      <ul class="message">
+        <li class="text-danger fw-bold d-flex flex-row text-center">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </li>
+      </ul>
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        <label for="username" class="form-label">Username</label>
+        <input type="text" name="username" class="form-control mb-2">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" class="form-control mb-3">
+        <input type="checkbox" name="rememberMe" class="form-check-input">
+        <label for="rememberMe" class="mb-3">Remember Me</label>
+        <button type="submit" class="btn d-block btn-primary w-100">Log In</button>
+      </form>    
+      <a href="">Forgot your Password?</a>  
+    </div>
+
+  </main>
+</body>
+</html>
