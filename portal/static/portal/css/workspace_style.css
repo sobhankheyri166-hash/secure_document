@@ -1,6 +1,11 @@
-.users-view img{
+.users-list img{
     width: 40px;
     height: 40px;
     border: 5px solid black;
     border-radius: 50%;
+}
+.request-bar{
+    border: 1px solid rgb(61, 57, 57) !important;
+    box-shadow: 6px 6px 12px;
+    border-radius: 5px;
 }

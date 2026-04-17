@@ -1,11 +1,31 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from django import forms
-from .models import *
+from .models import User, Request
 
 
-class UserManagement(forms.ModelForm):
+class CustomerProfileEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name','last_name','username','email','is_active']
+        fields = ['profile_picture','first_name','last_name','username','email','is_active']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control','aria-describedby': 'profile_pict_helptext'}),
+        }
+
+class CustomerCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = UserCreationForm.Meta.fields + ('first_name','last_name','email','profile_picture')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        }
 
 class FileUpload(forms.Form):
     class Meta:
@@ -20,5 +40,19 @@ class StaffRequestCreator(forms.ModelForm):
             'description': 'More about this file',
             'user': 'Select Client'
         }
+        widgets = {
+            'name' : forms.TextInput(attrs={'class':'form-control'}),
+            'description' : forms.Textarea(attrs={'class':'form-control'}),
+            'user' : forms.Select(attrs={'class':'form-select'})
+        }
+    def __init__(self,*args,**kwargs):
+        hide_user_field = kwargs.pop('hide_user_field',False)
+        super().__init__(*args,**kwargs)
+
+        if hide_user_field:
+            del self.fields['user']
+
+        
+        
 
         

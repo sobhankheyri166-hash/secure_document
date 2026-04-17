@@ -17,15 +17,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 from portal import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/',views.LoginPortalView.as_view(),name='login_view'),
-    path('workspace/',views.workspace,name='workspace'),
+    path('workspace/',views.StaffWorkspaceView.as_view(),name='workspace'),
     path('logout/', auth_views.LogoutView.as_view(next_page='login_view'),name='logout'),
-    path('workspace/users/',views.CustomerListView.as_view(),name='users_view'),
-    path('workspace/users/<str:customer_username>/profile/',views.CustomerProfileUpdateView.as_view(),name='users_profile'),
-    path('workspace/users/<str:customer_username>/profile/reset-password/',views.PasswordResetView.as_view(),name='admin_password_reset'),
+    path('workspace/users-list/',views.CustomersListView.as_view(),name='users_list'),
+    path('workspace/users-list/<slug:customer_username>/profile/',views.CustomerProfileUpdateView.as_view(),name='customer_profile_edit'),
+    path('workspace/users-list/<str:customer_username>/profile/reset-password/',views.PasswordResetView.as_view(),name='admin_password_reset'),
+    path('workspace/users-list/<str:customer_username>/profile/delete-customer/',views.customer_delete,name='delete_customer'),
+    path('workspace/users-list/add-new-user/',views.CustomerCreationView.as_view(),name='add_customer'),
+    path('workspace/add-new-request/',views.NewRequestView.as_view(),name='new_request'),
+    path('workspace/<str:customer_username>/requests-hub/',views.CustomerRequestsHub.as_view(),name='customer_requests_hub'),
+    path('workspace/<str:customer_username>/requests-hub/<int:request_id>/edit',views.EditRequestView.as_view(),name='customer_request_edit'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

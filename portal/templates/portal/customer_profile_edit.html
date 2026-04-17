@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/customer_profile_edit_style.css' %}">
+    <title>Edit Customer Profile</title>
+</head>
+
+<body>
+  <header class="container-fluid bg-info"></header>
+    <nav class="breadcrumb-nav ms-2" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'workspace' %}" class="d-flex flex-row gap-1">
+            <img src="{% static 'images/icons/house.svg' %}" alt="go to workspace" class="home-btn">
+            <span>Workspace</span> 
+          </a></li>
+          <li class="breadcrumb-item"><a href="{% url 'users_list' %}">Customer List</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Edit Customer Profile</li>
+        </ol>
+    </nav>  
+
+  <main class="d-flex">
+    <div class="m-auto shadow bg-white">
+      <h2 class="m-3">Customer Profile Edit</h2>
+      <form method="post" enctype="multipart/form-data" class="form-control hadow">
+        {% csrf_token %}
+        {% for field in form %}
+          {% if field.name == "profile_picture" %}
+            <div class="mb-3 text-center">
+              <label for="{{ field.id_for_label }}" class="profile-picture-upload">
+                <img
+                  id="profile-picture-preview"
+                  src="{{ customer_obj.profile_picture_url }}"
+                  alt="{{ customer_obj.username }} profile picture"
+                  class="profile-picture-preview">
+
+                <span class="profile-picture-overlay">
+                  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 16V5"></path>
+                    <path d="m7 10 5-5 5 5"></path>
+                    <path d="M5 19h14"></path>
+                  </svg>
+                  <span>Upload</span>
+                </span>
+              </label>
+              <div class="d-none">
+                {{ field }}
+              </div>
+              <small id="profile_pict_helptext" class="text-muted d-block">
+                Click to upload a new picture
+              </small>
+            </div>
+          {% elif field.name == "first_name" %}
+            <label for="first_name" class="form-label">First Name</label>
+              {{ field }}
+          {% elif field.name == "last_name" %}
+            <label for="last_name" class="form-label">Last Name</label>
+              {{ field }}
+          {% elif field.name == "username" %}
+            <label for="username" class="form-label">Username</label>
+              {{ field }}
+          {% elif field.name == "email" %}
+            <label for="email" class="form-label">Email Address</label>
+              {{ field }}
+          {% elif field.name == "is_active" %}
+            <label for="is_active" class="form-label">Is Active:</label>
+            {{ field }}
+            <small id="id_is_active_helptext" class="d-block mb-3">
+              Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
+            </small>
+          {% endif %}
+        {% endfor %} 
+        <a href="{% url 'admin_password_reset' customer_obj.username %}" class="password-reset-btn">
+          <span class="password-reset-btn__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a4 4 0 0 0-4 4v2"></path>
+              <path d="M8 11h8a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2Z"></path>
+              <path d="M12 15v1"></path>
+            </svg>
+          </span>
+          <span class="password-reset-btn__content">
+            <span class="password-reset-btn__eyebrow">Security</span>
+            <span class="password-reset-btn__label">Reset Password</span>
+          </span>
+          <span class="password-reset-btn__arrow" aria-hidden="true">→</span>
+        </a>
+        <div class="save-cancel-btn mt-3">
+          <button type="submit" class="btn btn-outline-primary">Save Changes</button>
+          <a href="{% url 'users_list' %}" class="btn btn-outline-danger">Cancel</a>          
+        </div>
+      </form>
+    </div>
+  </main>
+
+
+
+
+
+  <script>
+    const pictureInput = document.getElementById("id_profile_picture");
+    const previewNode = document.getElementById("profile-picture-preview");
+
+    if (pictureInput && previewNode) {
+      pictureInput.addEventListener("change", function (event) {
+        const file = event.target.files[0];
+
+        if (!file) {
+          return;
+        }
+
+        const imageUrl = URL.createObjectURL(file);
+
+        if (previewNode.tagName === "IMG") {
+          previewNode.src = imageUrl;
+        } else {
+          const image = document.createElement("img");
+          image.id = "profile-picture-preview";
+          image.src = imageUrl;
+          image.alt = "{{ customer_obj.username }} profile picture preview";
+          image.className = "profile-picture-preview";
+          previewNode.replaceWith(image);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

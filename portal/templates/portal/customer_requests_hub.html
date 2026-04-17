@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <title>Document</title>
+    <style>
+      .request-row{
+        border: 1px solid rgb(68, 61, 61);
+        box-shadow: 4px 4px 10px;
+      }
+      .edit-icon{
+        width: 30px;
+        height: 30px;
+      }
+      .back-btn{
+        width: 35px;
+        height: 35px;
+      }
+      th, td{
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      tr{
+        border-bottom: 1px solid black;
+      }
+    </style>
+</head>
+<body>
+  <nav class="d-flex justify-content-between">
+    <div>
+      
+    </div>
+    <a href="{% url 'workspace' %}">
+      <img src="{% static 'images/icons/arrow-left.svg' %}" alt="back to previous page" class="back-btn">
+    </a>    
+  </nav>
+
+  <div class="d-flex justify-content-center">
+    <div class="card d-inline-block">
+      <div class="card-header">
+        File Requests
+      </div>
+      <div class="card-body">
+        <table class="table-responsive table-hover">
+            <thead>
+              <th class="text-center">Number</th>
+              <th class="text-center">File Name</th>
+              <th class="text-center">Last Modified at</th>
+              <th class="text-center">Registeration Date</th>
+              <th class="text-center">Edit</th>
+            </thead>
+            <tbody>
+              {% for item in context %}
+              <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td class="text-center">{{ item.name }}</td>
+                <td>{{ item.last_modified }}</td>
+                <td class="text-center">{{ item.date_created }}</td>
+                <td class="text-center">
+                  <a href="{% url 'customer_request_edit' request_id=item.pk customer_username=item.user.username %}">
+                    <img src="{% static 'images/icons/pencil.svg' %}" alt="edit" class="edit-icon">
+                  </a>                        
+                </td>            
+              </tr>
+              {% endfor %}
+            </tbody>
+        </table>        
+
+      </div>
+    </div>    
+  </div>
+
+
+  
+</body>
+</html>

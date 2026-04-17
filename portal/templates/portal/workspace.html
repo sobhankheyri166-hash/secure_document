@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,18 +8,19 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'portal/css/workspace_style.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
-    <title>Document</title>
+
+    <title>Workspace</title>
+
 </head>
 <body>
   <nav class="navbar container-fluid p-2">
 
-    <section>
-      <a href="{% url 'users_view' %}" class="users-view">
+    <div>
+      <a href="{% url 'users_list' %}" class="users-list">
         <img src="{% static 'images/icons/users.svg' %}" alt="users">
       </a>
-    </section>
-
-    <section class="btn-group dropdown m-1 gap-3 border-bottom border-white">
+    </div>
+    <div class="btn-group dropdown m-1 gap-3 border-bottom border-white">
       <button class="btn dropdown-toggle profile-picture-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="" alt="profile_picture">
       </button>
@@ -45,22 +47,27 @@
           </form>
         </li>
       </ul>
-    </section>
-
-
-
-
-
+    </div>
+    <a href="{% url 'new_request' %}" class="btn btn-outline-primary">+ Add New Request</a>
 
 
   </nav>
-  <main class="bg-success">
+  <main>
+    {% for item in context %}
+      {% if item|is_str %}
+        <h3>{{ item }}</h3>
+      {% else %}
+        <a href="{% url 'customer_requests_hub' item.username %}">
+          <div class="row m-3 request-bar">
+            <div class="col-4">{{ item }}</div>
+            <div class="col-4">{{ item.total_requests }} Files</div>
+            <div class="col-4">{{ item.last_request }}</div>
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
 
-    <form action="{% url 'workspace' %}" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Submit</button>
-    </form>
+
 
   </main>
 </body>

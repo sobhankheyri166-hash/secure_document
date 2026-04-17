@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <title>Document</title>
+    <style>
+    
+    </style>
+</head>
+<body>
+  <form action="" method="post" class="form-check">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-outline-success">Submit</button>
+    <a href="{% url 'workspace' %}" class="btn btn-outline-info">Back to Main Page</a>
+  </form>    
+</body>
+</html>

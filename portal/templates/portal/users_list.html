@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}">
+    <title>Document</title>
+    <style>
+      @media (max-width:768px){
+        .card-wrapper{
+          width: 100%;
+        }
+      }
+      .edit-btn{
+        transition: background-color 0.3s ease-in-out;
+      }
+      .edit-btn:hover{
+        background-color: gray;
+      }
+      .edit-btn div{
+        width: 25px;
+        height: 23px;
+        transition: color 0.3s ease-in-out;
+      }
+      .edit-btn div:hover{
+        color: white;
+      }
+      .arrow-back img{
+        height: 30px;
+        width: 50px;
+        border-radius: 50%;
+        border: 2px solid black;
+      }
+      .profile-picture{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+    </style>
+    
+</head>
+<body>
+  <div>
+    <a href="{% url 'workspace' %}" class="arrow-back d-inline-block m-3">
+      <img src="{% static 'images/icons/arrow-left.svg' %}" alt="back button">
+    </a> 
+    {% for message in messages %}
+    <div class="bg-success">
+      <div class="d-flex flex-row text-white">
+        <div class="check-icon">{% include 'portal/icons/check.html' %}</div>
+        <h3>{{ message }}</h3>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+
+    <div class="d-flex justify-content-center card-wrapper">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span>List Of Customers</span>
+          <a href="{% url 'add_customer' %}" class="btn btn-outline-primary">+ Add New Customer</a>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover align-middle text-center">
+            <thead>
+              <th>#</th>
+              <th>Profile Picture</th>
+              <th>Name</th>
+              <th>Username</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              {% for user in users_info %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <div class="profile-picture">
+                      <img src="{{ user.profile_picture_url }}" alt="{{ user.username }} profile picture" class="profile-picture">
+                    </div>                  
+                  </td>
+                  <td>{{ user }}</td>
+                  <td>{{ user.username }}</td>
+                  <td>
+                    <a href="{% url 'customer_profile_edit' user.username %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile" class="btn edit-btn">
+                      <div>{% include 'portal/icons/pencil.html' %}</div>
+                    </a>
+                    <form action="{% url 'delete_customer' user.username %}" method="post"> 
+                    {% csrf_token %}       
+                      <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to completely remove this customer?');">
+                        Remove
+                      </button>
+                    </form>                    
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>      
+    </div>
+
+<script>
+    // Initialize all Bootstrap tooltips on the page
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+
+</body>
+</html>
