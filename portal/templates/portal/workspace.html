@@ -3,72 +3,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'portal/css/workspace_style.css' %}">
-    <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
-
-    <title>Workspace</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'portal/css/workspace_style.css' %}">
+  <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+  <title>Workspace</title>
 </head>
 <body>
-  <nav class="navbar container-fluid p-2">
-
-    <div>
-      <a href="{% url 'users_list' %}" class="users-list">
-        <img src="{% static 'images/icons/users.svg' %}" alt="users">
-      </a>
-    </div>
-    <div class="btn-group dropdown m-1 gap-3 border-bottom border-white">
-      <button class="btn dropdown-toggle profile-picture-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="" alt="profile_picture">
-      </button>
-      <ul class="dropdown-menu dropdown-menu-start">
-        <li><a class="dropdown-item d-flex flex-row flex-wrap gap-2" href="#">
-          <div class="dropdown-icons">{% include 'portal/icons/gear.html' %}</div>
-          <span>Setting</span>
-        </a></li>
-        <li><a class="dropdown-item d-flex flex-row gap-2" href="#">
-          <div class="dropdown-icons">{% include 'portal/icons/person_head_and_body.html' %}</div>
-          <span class="d-flex flex-wrap">Personal Information & Account</span>
-        </a></li>
-        <li><a class="dropdown-item d-flex flex-row gap-2" href="#">
-          <div class="dropdown-icons">{% include 'portal/icons/paintbrush.html' %}</div>
-          <span>Theme</span>
-        </a></li>
-        <li>
-          <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn">
-              <div class="dropdown-icons">{% include 'portal/icons/power_off.html' %}</div>
-              Logout
-            </button>
-          </form>
-        </li>
-      </ul>
-    </div>
-    <a href="{% url 'new_request' %}" class="btn btn-outline-primary">+ Add New Request</a>
-
-
-  </nav>
-  <main>
-    {% for item in context %}
-      {% if item|is_str %}
-        <h3>{{ item }}</h3>
-      {% else %}
-        <a href="{% url 'customer_requests_hub' item.username %}">
-          <div class="row m-3 request-bar">
-            <div class="col-4">{{ item }}</div>
-            <div class="col-4">{{ item.total_requests }} Files</div>
-            <div class="col-4">{{ item.last_request }}</div>
-          </div>
+  <div class="workspace-shell">
+    <nav class="workspace-navbar">
+      <div class="workspace-brand">
+        <div>
+          <p class="workspace-eyebrow">Staff Dashboard</p>
+          <h1 class="workspace-title">Workspace</h1>
+        </div>
+        <a href="{% url 'customers_list' %}" class="users-list" aria-label="Customer Directory" 
+        title="Customer Directory" data-bs-toggle="tooltip" data-bs-placement="bottom">
+          <img src="{% static 'images/icons/users.svg' %}" alt="users">
         </a>
-      {% endif %}
-    {% endfor %}
+      </div>
 
+      <div class="workspace-actions">
+        <a href="{% url 'new_request' %}" class="btn workspace-primary-btn">+ Add New Request</a>
+        <div class="btn-group dropdown">
+          <button class="btn dropdown-toggle profile-picture-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="profile-pill">
+              <span class="profile-pill__avatar">{{ request.user.username|slice:":1"|upper }}</span>
+              <span class="profile-pill__label">{{ request.user.username }}</span>
+            </span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item d-flex flex-row gap-2 align-items-center" href="#">
+                <div class="dropdown-icons">{% include 'portal/icons/person_head_and_body.html' %}</div>
+                <span class="d-flex flex-wrap">Personal Information & Account</span>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item d-flex flex-row gap-2 align-items-center">
+                  <div class="dropdown-icons">{% include 'portal/icons/power_off.html' %}</div>
+                  <span>Logout</span>
+                </button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
+    <main class="workspace-main">
+      <section class="hero-panel">
+        <div class="mb-auto">
+          <div>
+            <p class="hero-panel__eyebrow">Overview</p>
+            <h2>Track customer request activity in one place.</h2>          
+          </div>
+          <p class="hero-panel__text">Use this workspace to review customer profiles, send and manage requests in a tidy place.</p>
+        </div>
 
-  </main>
+        <div class="hero-panel__meta">
+          <div class="hero-stat">
+            <span class="hero-stat__label">Directory</span>
+            <span class="hero-stat__value">Customer Request Hub</span>
+          </div>
+          <div class="hero-stat">
+            <span class="hero-stat__label">Focus</span>
+            <span class="hero-stat__value">Recent request activity</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="activity-panel">
+        <div class="activity-panel__header">
+          <h3>Request Overview</h3>
+          <span class="section-hint">Open a row to manage that customer’s requests.</span>
+        </div>
+
+        {% if text %}
+          <div class="empty-state">
+            <h4>No requests yet</h4>
+            <p>{{ text }}</p>
+            <a href="{% url 'new_request' %}" class="btn workspace-primary-btn">Create First Request</a>
+          </div>
+        {% else %}
+          <div class="activity-table">
+            <div class="activity-table__head">
+              <span>Customer</span>
+              <span>Total Requests</span>
+              <span>Last Request</span>
+            </div>
+
+            <div class="activity-table__body">
+              {% for item in context %}
+                {% if not item|is_str %}
+                  <a href="{% url 'customer_requests_hub' item.username %}" class="activity-row">
+                    <span class="activity-row__primary">{{ item }}</span>
+                    <span>{{ item.total_requests }} Files</span>
+                    <span>{{ item.last_request }}</span>
+                  </a>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+
+  <script>
+  // Initialize all Bootstrap tooltips on the page
+  document.addEventListener("DOMContentLoaded", function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+      var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+      })
+  });
+</script>
+
 </body>
 </html>

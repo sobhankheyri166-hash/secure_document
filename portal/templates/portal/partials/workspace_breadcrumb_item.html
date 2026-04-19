@@ -1,0 +1,23 @@
+{% load static %}
+<style>
+  .home-breadcrumb-a{
+    text-decoration: none; 
+    color: #255e63;
+  }
+
+  .home-breadcrumb-a:hover{
+    text-decoration: underline;
+  }
+
+  .home-breadcrumb-a img{
+    width: 20px; 
+    height: 20px; 
+    margin-top: 0.1rem;
+  }
+</style>
+<li class="breadcrumb-item">
+  <a href="{% url 'workspace' %}" class="d-flex flex-row gap-1 home-breadcrumb-a">
+    <img src="{% static 'images/icons/house.svg' %}" alt="go to workspace" class="home-btn">
+    <span>Workspace</span> 
+  </a>
+</li>

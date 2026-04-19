@@ -17,15 +17,25 @@ class CustomerProfileEditForm(forms.ModelForm):
         }
 
 class CustomerCreationForm(UserCreationForm):
+    profile_picture = forms.ImageField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'class': 'profile_picture_input', 'accept': 'image/*'})
+    )
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = UserCreationForm.Meta.fields + ('first_name','last_name','email','profile_picture')
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name in ('password1', 'password2'):
+            self.fields[field_name].widget.attrs.update({'class': 'form-control'})
 
 class FileUpload(forms.Form):
     class Meta:

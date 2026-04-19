@@ -29,12 +29,6 @@ main > div {
     overflow: hidden;
 }
 
-.home-btn{
-    width: 20px;
-    height: 20px;
-    margin-top: 0.1rem;
-}
-
 h2 {
     margin: 0 !important;
     padding: 1.4rem 1.5rem 0.5rem;

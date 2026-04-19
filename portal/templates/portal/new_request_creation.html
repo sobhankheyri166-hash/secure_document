@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/tom-select.bootstrap5.min.css' %}">
+    <title>Add a Request</title>
+    <style>
+      body{
+        background:
+        linear-gradient(180deg, #c3e6cc 0%, #9ac9ab 28%, #5ed378 58%, #4fdd51 100%);
+      }
+
+      h3{
+        font-weight: 700;
+        font-size: 2rem;
+      }
+
+      label{
+        margin-bottom: 0.5rem;
+      }
+
+      .form-wrapper{
+        border: 1px solid rgba(15, 97, 73, 0.08);
+        box-shadow: 0 10px 24px rgba(20, 60, 45, 0.06);
+        border-radius: 1rem;
+        padding: 1rem;
+        background-color: rgba(255, 255, 255, 0.78);
+      }
+
+      .breadcrumb{
+        margin-bottom: 2rem;
+      }
+
+      .send-btn, .back-btn{
+        border: 1px solid rgb(65, 99, 62);
+        border-radius: 1rem;
+        width: 100%;
+        padding: 0.5rem;
+        transition: background-color 0.2s ease, color 0.2s ease ;
+      }
+
+      .send-btn:hover{
+        background-color: rgb(0, 189, 129);
+        color: white;
+      }
+
+      .back-btn:hover{
+        background-color: rgb(171, 6, 42);
+        color: white;
+      }
+      
+      @media (max-width:756px){
+        .btn-wrapper{
+          flex-direction: column !important;
+        }
+      }
+    </style>
+</head>
+<body class="p-4">
+  <div class="breadcrumb">
+    {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+    <li class="breadcrumb-item">Add New Request</li>
+  </div>
+
+  <div class="form-wrapper">
+    <h3 class="mb-5 mt-4 ps-4 text-center">Add A New Request</h3>
+    <form method="post" class="p-2">
+      {% csrf_token %}
+      <div class="row align-items-center mb-3">
+        <div class="col-6">
+          <label for="{{ form.name.id_for_label }}">Document Name:</label> 
+          {{ form.name }}     
+        </div>  
+        <div class="col-6">
+          {{ form.user.label_tag }}
+          {{ form.user }}
+        </div>              
+      </div>
+      {{ form.description.label_tag }}
+      {{ form.description }}        
+      <div class="d-flex flex-row justify-content-between gap-3 p-5 btn-wrapper">
+        <button type="submit" class="send-btn btn">Send</button>
+        <a href="{% url 'workspace' %}" class="back-btn btn d-block">Back to Workspace</a>        
+      </div>
+
+    </form>      
+  </div>
+  <script src="{% static 'js/bootstrap/tom-select.complete.min.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Django assigns the id based on the field name. Using id_for_label is the safest way to get it.
+        new TomSelect("#{{ form.user.id_for_label }}", {
+            create: false, // Prevents typing in users that don't exist in the list
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    });
+  </script>
+
+</body>
+</html>

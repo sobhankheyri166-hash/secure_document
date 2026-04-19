@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/new_customer_creation_page_style.css' %}">
+    <title>Create New Customer Profile</title>
+
+</head>
+<body>
+  <main class="page-shell">
+    <nav class="breadcrumb-nav" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+        <li class="breadcrumb-item"><a href="{% url 'customers_list' %}">Customer List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create Customer</li>
+      </ol>
+    </nav>
+
+    <section class="hero-card">
+      <div class="hero-panel">
+        <h1>Create a New Customer</h1>
+        <p>Set up a polished client profile with secure login credentials and a recognizable profile image for your workspace.</p>
+        <div class="hero-badges">
+          <span class="hero-badge">Fast onboarding</span>
+          <span class="hero-badge">Secure credentials</span>
+          <span class="hero-badge">Profile photo preview</span>
+        </div>
+      </div>
+
+      <aside class="tips-panel">
+        <h2>Before you submit</h2>
+        <p class="mb-0 text-secondary">A few quick checks help keep your customer directory clean and professional.</p>
+        <ul class="tips-list">
+          <li>
+            <span class="tip-icon">1</span>
+            <span>Use the client’s real name so the profile is easy to recognize later.</span>
+          </li>
+          <li>
+            <span class="tip-icon">2</span>
+            <span>Choose a unique username that your team can quickly search and reference.</span>
+          </li>
+          <li>
+            <span class="tip-icon">3</span>
+            <span>Upload a clear square photo for the best results in the customer list and edit screens.</span>
+          </li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="form-panel">
+      <div class="form-header">
+        <div>
+          <h2>Customer Details</h2>
+          <p>Complete the form below to create a new customer account.</p>
+        </div>
+        <span class="status-pill">Ready to create</span>
+      </div>
+
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+          <div class="non-field-errors">
+            {% for error in form.non_field_errors %}
+              <p class="error-text">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="profile-picture-block">
+          <div>
+            <label for="{{ form.profile_picture.id_for_label }}" class="profile_picture_upload">
+              <img id="profile-picture-preview" src="{% static 'images/logos/default_user_profilepic.png' %}" alt="default profile picture">
+              <span class="profile-picture-overlay">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 16V5"></path>
+                  <path d="m7 10 5-5 5 5"></path>
+                  <path d="M5 19h14"></path>
+                </svg>
+                <span>Upload Photo</span>
+              </span>
+            </label>
+            {{ form.profile_picture }}
+            {% if form.profile_picture.errors %}
+              {% for error in form.profile_picture.errors %}
+                <p class="error-text mt-3 mb-0">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <p class="profile-picture-caption">Click the avatar to add a profile picture.</p>
+        </div>
+
+        <div class="form-grid">
+          <div class="field-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+            {% if form.first_name.errors %}
+              {% for error in form.first_name.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+            {% if form.last_name.errors %}
+              {% for error in form.last_name.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group full-width">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.errors %}
+              {% for error in form.username.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group full-width">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+              {% for error in form.email.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+          </div>
+
+          <div class="field-group">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+              {% for error in form.password1.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+            <p class="help-text">{{ form.password1.help_text|safe }}</p>
+          </div>
+
+          <div class="field-group">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+              {% for error in form.password2.errors %}
+                <p class="error-text">{{ error }}</p>
+              {% endfor %}
+            {% endif %}
+            <p class="help-text">{{ form.password2.help_text|safe }}</p>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn btn-submit">Create Customer</button>
+          <a href="{% url 'customers_list' %}" class="btn btn-cancel">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const profilePictureInput = document.getElementById('{{ form.profile_picture.id_for_label }}');
+    const profilePicturePreview = document.getElementById('profile-picture-preview');
+
+    if (profilePictureInput && profilePicturePreview) {
+      profilePictureInput.addEventListener('change', (event) => {
+        const selectedFile = event.target.files[0];
+
+        if (!selectedFile) {
+          return;
+        }
+
+        profilePicturePreview.src = URL.createObjectURL(selectedFile);
+      });
+    }
+  </script>
+</body>
+</html>

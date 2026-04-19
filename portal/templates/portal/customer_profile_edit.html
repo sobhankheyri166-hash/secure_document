@@ -13,11 +13,8 @@
   <header class="container-fluid bg-info"></header>
     <nav class="breadcrumb-nav ms-2" aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{% url 'workspace' %}" class="d-flex flex-row gap-1">
-            <img src="{% static 'images/icons/house.svg' %}" alt="go to workspace" class="home-btn">
-            <span>Workspace</span> 
-          </a></li>
-          <li class="breadcrumb-item"><a href="{% url 'users_list' %}">Customer List</a></li>
+          {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+          <li class="breadcrumb-item"><a href="{% url 'customers_list' %}">Customer List</a></li>
           <li class="breadcrumb-item active" aria-current="page">Edit Customer Profile</li>
         </ol>
     </nav>  
@@ -89,7 +86,7 @@
         </a>
         <div class="save-cancel-btn mt-3">
           <button type="submit" class="btn btn-outline-primary">Save Changes</button>
-          <a href="{% url 'users_list' %}" class="btn btn-outline-danger">Cancel</a>          
+          <a href="{% url 'customers_list' %}" class="btn btn-outline-danger">Cancel</a>          
         </div>
       </form>
     </div>

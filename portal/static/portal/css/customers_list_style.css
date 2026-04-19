@@ -1,0 +1,231 @@
+:root {
+  --page-bg: #f4efe6;
+  --ink: #16313a;
+  --muted-ink: #5d7580;
+  --glass: rgba(255, 255, 255, 0.76);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --warm-accent: #ef8b4a;
+  --cool-accent: #3f8f8c;
+  --shadow: 0 26px 60px rgba(26, 50, 66, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: 100%;
+  }
+}
+
+.breadcrumb-nav {
+  padding: 0.75rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.breadcrumb-nav a,
+.breadcrumb-item.active {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.delete-svg svg {
+  width: 20px;
+  height: 20px;
+  color: black;
+  transition: color 0.2s ease-in-out;
+}
+
+.delete-svg svg:hover {
+  color: white;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 1.25rem;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(239, 139, 74, 0.28), transparent 24rem),
+    radial-gradient(circle at 85% 15%, rgba(63, 143, 140, 0.24), transparent 20rem),
+    radial-gradient(circle at bottom right, rgba(31, 73, 92, 0.20), transparent 24rem),
+    linear-gradient(135deg, #f7f1e8 0%, #edf4f3 42%, #e2edf4 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto;
+  border-radius: 999px;
+  filter: blur(18px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  width: 18rem;
+  height: 18rem;
+  top: 5rem;
+  right: -5rem;
+  background: rgba(239, 139, 74, 0.22);
+}
+
+body::after {
+  width: 22rem;
+  height: 22rem;
+  left: -7rem;
+  bottom: 2rem;
+  background: rgba(63, 143, 140, 0.18);
+}
+
+.delete-btn {
+  border: none;
+}
+
+.edit-btn {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.edit-btn:hover {
+  background-color: gray;
+}
+
+.edit-btn div {
+  width: 25px;
+  height: 23px;
+  transition: color 0.3s ease-in-out;
+}
+
+.edit-btn div:hover {
+  color: white;
+}
+
+.check-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.page-shell {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.hero-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  margin: 0.75rem 0 1.5rem;
+  padding: 1.4rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.34)),
+    linear-gradient(120deg, rgba(239, 139, 74, 0.08), rgba(63, 143, 140, 0.06));
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+}
+
+.hero-banner h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.hero-banner p {
+  max-width: 38rem;
+  margin: 0.35rem 0 0;
+  color: var(--muted-ink);
+}
+
+.card {
+  border: 1px solid var(--glass-border);
+  border-radius: 1.5rem;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.1rem 1.3rem;
+  border-bottom: 1px solid rgba(22, 49, 58, 0.08);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.22));
+}
+
+.card-header h4 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.table {
+  --bs-table-bg: transparent;
+  margin-bottom: 0;
+}
+
+.table thead th {
+  color: var(--muted-ink);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom-width: 1px;
+}
+
+.table > :not(caption) > * > * {
+  padding: 1rem 0.75rem;
+  border-color: rgba(22, 49, 58, 0.08);
+}
+
+.table tbody tr {
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.52);
+}
+
+.message-banner {
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #1f8d65, #41b884);
+  box-shadow: 0 18px 30px rgba(31, 141, 101, 0.22);
+}
+
+@media (max-width: 767px) {
+  body {
+    padding: 0.85rem;
+  }
+
+  .hero-banner {
+    padding: 1.1rem;
+    border-radius: 1.2rem;
+  }
+
+  .card-header {
+    gap: 0.75rem;
+    align-items: start !important;
+  }
+}

@@ -24,7 +24,7 @@ def staff_check(user):
 def customer_delete(request,customer_username):
     customer_to_delete = get_object_or_404(User,username=customer_username)
     customer_to_delete.delete()
-    return redirect('users_list')
+    return redirect('customers_list')
 
 
 class StaffWorkspaceView(LoginRequiredMixin,UserPassesTestMixin,View):
@@ -42,7 +42,7 @@ class StaffWorkspaceView(LoginRequiredMixin,UserPassesTestMixin,View):
 class NewRequestView(LoginRequiredMixin,UserPassesTestMixin,View):
     def get(self,request):
         form = StaffRequestCreator()
-        return render(request,'portal/request_creating_page.html',{'form':form})
+        return render(request,'portal/new_request_creation.html',{'form':form})
     def post(self,request):
         form = StaffRequestCreator(request.POST)
         if form.is_valid(): 
@@ -117,7 +117,7 @@ class LoginPortalView(View):
 
 
 class CustomersListView(UserPassesTestMixin,LoginRequiredMixin,ListView):
-    template_name = 'portal/users_list.html'
+    template_name = 'portal/customers_list.html'
     context_object_name = 'users_info'
 
     def test_func(self):
@@ -131,7 +131,7 @@ class CustomerProfileUpdateView(UserPassesTestMixin,LoginRequiredMixin,SuccessMe
     slug_url_kwarg = 'customer_username'
     slug_field = 'username'
     template_name = 'portal/customer_profile_edit.html'
-    success_url = reverse_lazy('users_list')
+    success_url = reverse_lazy('customers_list')
     success_message = 'Customer Profile Editted Successfully'
 
     def test_func(self):
@@ -157,15 +157,16 @@ class PasswordResetView(UserPassesTestMixin,LoginRequiredMixin,View):
         if form.is_valid():
             form.save()
             messages.success(request,'Password was Successfully Reset')
-            return redirect('users_list')
+            return redirect('customers_list')
         messages.error(request,'The password you set does not meet the standards. Please type in another password.')
         return render(request,'portal/reset_password.html',{'form':form,'user':user})
 
-class CustomerCreationView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
+class CustomerCreationView(LoginRequiredMixin,UserPassesTestMixin,SuccessMessageMixin,CreateView):
     model = User
     form_class = CustomerCreationForm
-    template_name = 'portal/customer_creation_form.html'
-    success_url = reverse_lazy('users_list')
+    template_name = 'portal/new_customer_creation_page.html'
+    success_message = 'Customer Account Has Been Created Successfully'
+    success_url = reverse_lazy('customers_list')
 
     def test_func(self):
         return self.request.user.is_staff
