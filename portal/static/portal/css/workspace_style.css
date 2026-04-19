@@ -153,8 +153,8 @@ body{
 }
 
 .dropdown-icons{
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.4rem;
+    height: 1.4rem;
 }
 
 .workspace-main{
@@ -305,6 +305,11 @@ body{
 .empty-state p{
     margin: 0 0 1.25rem;
     color: #5c6f68;
+}
+
+.guideline-img{
+    width: 18px !important;
+    height: 18px !important;
 }
 
 @media (max-width: 900px){

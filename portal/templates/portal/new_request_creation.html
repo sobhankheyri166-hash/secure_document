@@ -8,99 +8,292 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/tom-select.bootstrap5.min.css' %}">
     <title>Add a Request</title>
     <style>
-      body{
+      :root {
+        --page-top: #f4fbf5;
+        --page-bottom: #d6efd9;
+        --hero-green: #1f7a53;
+        --hero-green-deep: #0f5132;
+        --hero-accent: #89d39f;
+        --surface: rgba(255, 255, 255, 0.94);
+        --surface-soft: rgba(244, 250, 246, 0.92);
+        --border-soft: rgba(31, 122, 83, 0.16);
+        --text-main: #173726;
+        --text-muted: #53715f;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--text-main);
         background:
-        linear-gradient(180deg, #c3e6cc 0%, #9ac9ab 28%, #5ed378 58%, #4fdd51 100%);
+          radial-gradient(circle at top left, rgba(137, 211, 159, 0.55), transparent 30%),
+          linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
       }
 
-      h3{
+      .page-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem 3rem;
+      }
+
+      .request-panel {
+        overflow: hidden;
+        border: 1px solid var(--border-soft);
+        border-radius: 1.75rem;
+        background: var(--surface);
+        box-shadow: 0 24px 60px rgba(15, 81, 50, 0.12);
+      }
+
+      .hero-panel {
+        position: relative;
+        padding: 2.5rem 2rem;
+        color: #fff;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%),
+          linear-gradient(135deg, var(--hero-green-deep), var(--hero-green));
+      }
+
+      .hero-panel::after {
+        content: "";
+        position: absolute;
+        top: -2rem;
+        right: -2rem;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-kicker {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.4rem 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hero-panel h1 {
+        max-width: 12ch;
+        margin: 1rem 0 0.75rem;
+        font-size: clamp(2rem, 4vw, 3.4rem);
+        line-height: 1;
+        font-weight: 800;
+      }
+
+      .hero-panel p {
+        max-width: 48ch;
+        margin: 0;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .form-panel {
+        padding: 2rem;
+        background:
+          linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+      }
+
+      .section-title {
+        margin-bottom: 1.25rem;
+        font-size: 1.1rem;
         font-weight: 700;
-        font-size: 2rem;
       }
 
-      label{
-        margin-bottom: 0.5rem;
-      }
-
-      .form-wrapper{
-        border: 1px solid rgba(15, 97, 73, 0.08);
-        box-shadow: 0 10px 24px rgba(20, 60, 45, 0.06);
-        border-radius: 1rem;
+      .field-card {
+        height: 100%;
         padding: 1rem;
-        background-color: rgba(255, 255, 255, 0.78);
+        border: 1px solid var(--border-soft);
+        border-radius: 1.2rem;
+        background: rgba(255, 255, 255, 0.82);
       }
 
-      .breadcrumb{
-        margin-bottom: 2rem;
+      .field-card label {
+        display: block;
+        margin-bottom: 0.55rem;
+        font-weight: 600;
+        color: var(--hero-green-deep);
       }
 
-      .send-btn, .back-btn{
-        border: 1px solid rgb(65, 99, 62);
-        border-radius: 1rem;
+      .field-card input,
+      .field-card textarea,
+      .field-card select {
         width: 100%;
-        padding: 0.5rem;
-        transition: background-color 0.2s ease, color 0.2s ease ;
       }
 
-      .send-btn:hover{
-        background-color: rgb(0, 189, 129);
-        color: white;
+      .field-card textarea {
+        min-height: 180px;
+        resize: vertical;
       }
 
-      .back-btn:hover{
-        background-color: rgb(171, 6, 42);
-        color: white;
+      .selection-card {
+        padding: 1.25rem;
+        border: 1px solid rgba(31, 122, 83, 0.22);
+        border-radius: 1.35rem;
+        background:
+          linear-gradient(135deg, rgba(137, 211, 159, 0.15), rgba(255, 255, 255, 0.92));
       }
-      
-      @media (max-width:756px){
-        .btn-wrapper{
-          flex-direction: column !important;
+
+      .selection-card label {
+        display: block;
+        margin-bottom: 0.65rem;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--hero-green-deep);
+      }
+
+      .selection-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+      }
+
+      .selection-grid .field-card {
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .selection-grid select,
+      .selection-grid .ts-wrapper {
+        width: 100%;
+      }
+
+      .selection-grid .ts-control {
+        min-height: calc(1.5em + 0.75rem + 2px);
+      }
+
+      .selection-help {
+        margin: 0.75rem 0 0;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-top: 1.75rem;
+      }
+
+      .action-btn {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .action-btn-primary {
+        border: none;
+        color: #fff;
+        background: linear-gradient(135deg, var(--hero-green), #2f9b69);
+        box-shadow: 0 14px 24px rgba(31, 122, 83, 0.18);
+      }
+
+      .action-btn-secondary {
+        border: 1px solid rgba(15, 81, 50, 0.18);
+        color: var(--hero-green-deep);
+        background: rgba(255, 255, 255, 0.75);
+      }
+
+      @media (min-width: 768px) {
+        .selection-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 767.98px) {
+        .page-shell {
+          padding-top: 1.25rem;
+        }
+
+        .hero-panel,
+        .form-panel {
+          padding: 1.4rem;
+        }
+
+        .actions {
+          flex-direction: column;
         }
       }
     </style>
 </head>
-<body class="p-4">
-  <div class="breadcrumb">
-    {% include 'portal/partials/workspace_breadcrumb_item.html' %}
-    <li class="breadcrumb-item">Add New Request</li>
+<body>
+  <div class="page-shell">
+    <div class="breadcrumb mb-4">
+      {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+      <li class="breadcrumb-item">Add New Request</li>
+    </div>
+
+    <div class="request-panel">
+      <section class="hero-panel">
+        <span class="hero-kicker">Request Builder</span>
+        <h1>Create a new file request</h1>
+        <p>Set the request details clearly so the customer knows exactly what to prepare and upload.</p>
+      </section>
+
+      <section class="form-panel">
+        <form method="post" novalidate>
+          {% csrf_token %}
+
+          <div class="section-title">Request details</div>
+          <div class="row g-3 mb-3">
+            <div class="{% if form.user %}col-12 col-lg-6{% else %}col-12{% endif %}">
+              <div class="field-card">
+                <label for="{{ form.name.id_for_label }}">Document Name:</label>
+                {{ form.name }}
+              </div>
+            </div>
+
+            {% if form.user %}
+              <div class="col-12 col-lg-6">
+                <div class="field-card">
+                  {{ form.user.label_tag }}
+                  {{ form.user }}
+                </div>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="selection-card mb-3">
+            <div class="selection-grid">
+              <div class="field-card">
+                {{ form.file_type.label_tag }}
+                {{ form.file_type }}
+              </div>
+            </div>
+            <p class="selection-help">Choose the type that best matches the file you expect from the customer.</p>
+          </div>
+
+          <div class="field-card">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn action-btn action-btn-primary">Send Request</button>
+            <a href="{% url 'workspace' %}" class="btn action-btn action-btn-secondary">Back to Workspace</a>
+          </div>
+        </form>
+      </section>
+    </div>
   </div>
 
-  <div class="form-wrapper">
-    <h3 class="mb-5 mt-4 ps-4 text-center">Add A New Request</h3>
-    <form method="post" class="p-2">
-      {% csrf_token %}
-      <div class="row align-items-center mb-3">
-        <div class="col-6">
-          <label for="{{ form.name.id_for_label }}">Document Name:</label> 
-          {{ form.name }}     
-        </div>  
-        <div class="col-6">
-          {{ form.user.label_tag }}
-          {{ form.user }}
-        </div>              
-      </div>
-      {{ form.description.label_tag }}
-      {{ form.description }}        
-      <div class="d-flex flex-row justify-content-between gap-3 p-5 btn-wrapper">
-        <button type="submit" class="send-btn btn">Send</button>
-        <a href="{% url 'workspace' %}" class="back-btn btn d-block">Back to Workspace</a>        
-      </div>
-
-    </form>      
-  </div>
   <script src="{% static 'js/bootstrap/tom-select.complete.min.js' %}"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Django assigns the id based on the field name. Using id_for_label is the safest way to get it.
-        new TomSelect("#{{ form.user.id_for_label }}", {
-            create: false, // Prevents typing in users that don't exist in the list
-            sortField: {
-                field: "text",
-                direction: "asc"
-            }
-        });
+        const userSelectId = "{{ form.user.id_for_label|default:'' }}";
+        if (userSelectId) {
+            new TomSelect("#" + userSelectId, {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        }
     });
   </script>
-
 </body>
 </html>

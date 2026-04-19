@@ -21,13 +21,21 @@ class User(AbstractUser):
 
 
 class Request(models.Model):
+    class FileTypeChoice(models.TextChoices):
+        Image = 'IMAGE', 'Image'
+        Document = 'DOCUMENT', 'Document'
+        Other_Types = 'OTHER_TYPES', 'Other Types'
     name = models.CharField(max_length=80)
     description = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='file_request')
+    file_type = models.CharField(
+        max_length=12,
+        choices=FileTypeChoice, 
+        default=FileTypeChoice.Other_Types)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='file_request')
 
 
 class File(models.Model):
-    file = models.FileField(upload_to='docs/',validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png','pdf','zip'])])
-    request = models.ForeignKey(Request,on_delete=models.CASCADE)
+    file = models.FileField(upload_to='docs/', validators=[FileExtensionValidator(allowed_extensions=['jpg','jpeg','png','pdf','zip'])])
+    request = models.ForeignKey(Request, on_delete=models.CASCADE)

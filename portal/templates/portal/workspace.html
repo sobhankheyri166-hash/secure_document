@@ -36,20 +36,26 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
               <a class="dropdown-item d-flex flex-row gap-2 align-items-center" href="#">
-                <div class="dropdown-icons">{% include 'portal/icons/person_head_and_body.html' %}</div>
+                <div class="dropdown-icons mb-2">{% include 'portal/icons/person_head_and_body.html' %}</div>
                 <span class="d-flex flex-wrap">Personal Information & Account</span>
               </a>
             </li>
             <li><hr class="dropdown-divider"></li>
+            </li>
+            <li><a href="" class="dropdown-item d-flex flex-row gap-2 align-items-center">
+              <img src="{% static 'images/icons/book-open.svg' %}" alt="guideline" class="dropdown-icons">
+              <span>Guideline</span>
+            </a></li>
+            <li><hr class="dropdown-divider"></li>            
             <li>
               <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="dropdown-item d-flex flex-row gap-2 align-items-center">
-                  <div class="dropdown-icons">{% include 'portal/icons/power_off.html' %}</div>
+                  <div class="dropdown-icons mb-2">{% include 'portal/icons/power_off.html' %}</div>
                   <span>Logout</span>
                 </button>
               </form>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -79,7 +85,7 @@
 
       <section class="activity-panel">
         <div class="activity-panel__header">
-          <h3>Request Overview</h3>
+          <h3>Requests Overview</h3>
           <span class="section-hint">Open a row to manage that customer’s requests.</span>
         </div>
 

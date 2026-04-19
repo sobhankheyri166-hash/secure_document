@@ -44,7 +44,7 @@ class FileUpload(forms.Form):
 class StaffRequestCreator(forms.ModelForm):
     class Meta:
         model = Request
-        fields = ['name','description','user']
+        fields = ['name','description','user','file_type']
         labels = {
             'name': 'Document Name (e.g. W2 Form)',
             'description': 'More about this file',
@@ -53,6 +53,7 @@ class StaffRequestCreator(forms.ModelForm):
         widgets = {
             'name' : forms.TextInput(attrs={'class':'form-control'}),
             'description' : forms.Textarea(attrs={'class':'form-control'}),
+            'file_type' : forms.Select(attrs={'class':'form-select'}),
             'user' : forms.Select(attrs={'class':'form-select'})
         }
     def __init__(self,*args,**kwargs):

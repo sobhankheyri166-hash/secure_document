@@ -7,25 +7,12 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <title>Document</title>
     <style>
-      .request-row{
-        border: 1px solid rgb(68, 61, 61);
-        box-shadow: 4px 4px 10px;
-      }
-      .edit-icon{
+
+      .card-body img{
         width: 30px;
         height: 30px;
       }
-      .back-btn{
-        width: 35px;
-        height: 35px;
-      }
-      th, td{
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-      tr{
-        border-bottom: 1px solid black;
-      }
+
     </style>
 </head>
 <body>
@@ -38,7 +25,35 @@
     </a>    
   </nav>
 
-  <div class="d-flex justify-content-center">
+  <section>
+    {% for item in context %}
+      <div class="card">
+        <div class="card-body">
+          <h6 class="card-title">{{ item.name }}</h6>
+          <p class="text-muted">Created: {{ item.date_created }}</p>
+          <p class="text-muted">Modified: {{ item.last_modified }}</p>
+          <a href="">
+            <img src="{% static 'images/icons/pencil.svg' %}" alt="edit" class="edit-icon">
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <!-- <div class="d-flex justify-content-center">
     <div class="card d-inline-block">
       <div class="card-header">
         File Requests
@@ -71,7 +86,7 @@
 
       </div>
     </div>    
-  </div>
+  </div> -->
 
 
   
