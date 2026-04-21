@@ -1,10 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from django import forms
 from .models import User, Request
 
 
-class CustomerProfileEditForm(forms.ModelForm):
+class CustomerProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['profile_picture','first_name','last_name','username','email','is_active']
@@ -15,6 +16,12 @@ class CustomerProfileEditForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control','aria-describedby': 'profile_pict_helptext'}),
         }
+    def clean(self):
+        cleaned_data = super().clean()
+        username = cleaned_data.get('username')
+        if username == 'test':
+            raise ValidationError('This is to test')
+        return cleaned_data
 
 class CustomerCreationForm(UserCreationForm):
     profile_picture = forms.ImageField(

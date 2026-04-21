@@ -11,7 +11,7 @@ from django.db.models import Count, Max
 from django.urls import reverse_lazy
 from django.contrib import messages
 
-from .forms import StaffRequestCreator, CustomerProfileEditForm, CustomerCreationForm
+from .forms import StaffRequestCreator, CustomerProfileUpdateForm, CustomerCreationForm
 from .models import User, Request
 
 # METHODS
@@ -130,7 +130,7 @@ class CustomersListView(UserPassesTestMixin,LoginRequiredMixin,ListView):
     
 class CustomerProfileUpdateView(UserPassesTestMixin,LoginRequiredMixin,SuccessMessageMixin,UpdateView):
     model = User
-    form_class = CustomerProfileEditForm
+    form_class = CustomerProfileUpdateForm
     slug_url_kwarg = 'customer_username'
     slug_field = 'username'
     template_name = 'portal/customer_profile_edit.html'

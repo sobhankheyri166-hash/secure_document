@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/theme.css' %}">
     <link rel="stylesheet" href="{% static 'portal/css/customer_profile_edit_style.css' %}">
     <title>Edit Customer Profile</title>
 </head>
 
-<body>
-  <header class="container-fluid bg-info"></header>
+<body class="profile-edit-page">
+  <header class="container-fluid profile-header"></header>
     <nav class="breadcrumb-nav ms-2" aria-label="breadcrumb">
         <ol class="breadcrumb">
           {% include 'portal/partials/workspace_breadcrumb_item.html' %}
@@ -20,28 +21,27 @@
     </nav>  
 
   <main class="d-flex">
-    <div class="m-auto shadow bg-white">
+    <div class="m-auto shadow profile-edit-card">
       <h2 class="m-3">Customer Profile Edit</h2>
       {% if form.non_field_errors %}
-        <div class="shadow rounded alert">
-          <div class="cross-wrapper">
-            <svg width="100" height="100" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
-              <!-- Line 1: Top-left to bottom-right with a subtle inward curve -->
-              <path d="M18 6C15 9 9 15 6 18" 
-                    stroke="currentColor" 
-                    stroke-width="2" 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round"/>
-              
-              <!-- Line 2: Top-right to bottom-left with a subtle inward curve -->
-              <path d="M6 6C9 9 15 15 18 18" 
-                    stroke="currentColor" 
-                    stroke-width="2" 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round"/>
-            </svg>            
-          </div>
-          <h6 class="text-danger">{{ form.non_field_errors }}</h6>
+        <div class="shadow rounded alert m-3 non-field-err-wrapper">
+          {% for error in form.non_field_errors %}
+            <h6 class="non-field-error-message d-flex flex-row align-items-center">
+              <span>{{ error }}</span>
+              <svg width="100" height="100" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 6C15 9 9 15 6 18" 
+                      stroke="currentColor" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"/>
+                <path d="M6 6C9 9 15 15 18 18" 
+                      stroke="currentColor" 
+                      stroke-width="2" 
+                      stroke-linecap="round" 
+                      stroke-linejoin="round"/>
+              </svg>
+            </h6>
+          {% endfor %}
         </div>
       {% endif %}
       <form method="post" enctype="multipart/form-data" class="form-control hadow">
@@ -68,7 +68,7 @@
               <div class="d-none">
                 {{ field }}
               </div>
-              <small id="profile_pict_helptext" class="text-muted d-block">
+              <small id="profile_pict_helptext" class="profile-help-text d-block">
                 Click to upload a new picture
               </small>
             </div>

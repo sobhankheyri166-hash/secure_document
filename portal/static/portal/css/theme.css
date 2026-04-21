@@ -1,0 +1,19 @@
+  :root {
+    /* global palette */
+    --color-bg-base: #f5f7fb;
+    --color-surface: #ffffff;
+    --color-surface-soft: #eef3f8;
+    --color-text: #18212b;
+    --color-text-muted: #5f6b7a;
+    --color-border: #d5dde7;
+    --color-primary: #0d6efd;
+    --color-danger: #c0392b;
+
+    /* default semantic aliases */
+    --page-bg: var(--color-bg-base);
+    --panel-bg: var(--color-surface);
+    --panel-soft-bg: var(--color-surface-soft);
+    --page-text: var(--color-text);
+    --page-muted-text: var(--color-text-muted);
+    --page-border: var(--color-border);
+  }

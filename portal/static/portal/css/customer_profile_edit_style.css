@@ -1,17 +1,40 @@
 body{
-    color: #15343a;
-    background-color: #eef3ea;
-    background-image:
+    --page-bg-color: #eef3ea;
+    --page-bg-overlay-colors: 
         radial-gradient(circle at top left, rgba(232, 189, 120, 0.22), transparent 30%),
         radial-gradient(circle at top right, rgba(101, 175, 156, 0.22), transparent 30%),
         linear-gradient(180deg, #faf4ea 0%, #eef3ea 48%, #e4efe9 100%);
+    --color-white: #ffffff;
+    --label-color: #21484e;
+    --header-bg-color: linear-gradient(90deg, #11383c 0%, #1d5c57 100%);
+}
+
+[data-theme="dark"] body {
+    --page-bg-color: #10191b;
+    --background-overlay-colors:
+        radial-gradient(circle at top left, rgba(232, 189, 120, 0.08), transparent 30%),
+        radial-gradient(circle at top right, rgba(101, 175, 156, 0.08), transparent 30%),
+        linear-gradient(180deg, #142022 0%, #10191b 48%, #122124 100%);
+    --color-white: #182426;
+    --label-color: #c7dcda;
+    --header-bg-color: linear-gradient(90deg, #0b2326 0%, #123a36 100%);
+}
+
+
+
+
+
+body{
+    color: #15343a;
+    background-color: var(--page-bg-color);
+    background-image: var(--page-bg-overlay-colors);
     background-attachment: fixed;
     min-height: 100vh;
 }
 
 header {
     height: 50px !important;
-    background: linear-gradient(90deg, #11383c 0%, #1d5c57 100%);
+    background: var(--header-bg-color);
     box-shadow: 0 10px 24px rgba(17, 56, 60, 0.16);
 }
 
@@ -27,6 +50,10 @@ main > div {
     background: rgba(255, 252, 246, 0.92) !important;
     box-shadow: 0 22px 50px rgba(28, 65, 68, 0.14) !important;
     overflow: hidden;
+}
+
+main > div:first-child{
+    background-color: var(--color-white) !important;
 }
 
 h2 {
@@ -77,7 +104,7 @@ form.form-control {
 
 label{
     margin-top: 1rem;
-    color: #21484e;
+    color: var(--label-color);
     font-weight: 600;
 }
 
@@ -98,7 +125,7 @@ input:not([type="file"]):not([type="checkbox"]):focus,
 select:focus,
 textarea:focus {
     border-color: #4f9d8b;
-    background: #ffffff;
+    background: var(--color-white);
     box-shadow: 0 0 0 0.2rem rgba(79, 157, 139, 0.16);
     outline: 0;
 }
@@ -109,7 +136,7 @@ input[type="checkbox"] {
 }
 
 small {
-    color: #627a7d !important;
+    color: var(--color-text-muted) !important;
 }
 
 .password-reset-btn {
@@ -159,9 +186,15 @@ small {
     height: 1.35rem;
 }
 
-.cross-wrapper{
-    width: 30px;
-    height: 30px;
+.non-field-err-wrapper svg{
+    width: 26px;
+    height: 26px;
+    margin-top: 1px;
+    margin-left: 2px;
+}
+
+.non-field-err-wrapper ul{
+    margin: 0;
 }
 
 .password-reset-btn__content {
@@ -224,7 +257,7 @@ small {
     inset: 0;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.55);
-    color: white;
+    color: var(--color-white);
     display: flex;
     flex-direction: column;
     align-items: center;
