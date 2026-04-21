@@ -1,0 +1,209 @@
+:root {
+  --page-top: #f4fbf5;
+  --page-bottom: #d6efd9;
+  --hero-green: #1f7a53;
+  --hero-green-deep: #0f5132;
+  --hero-accent: #89d39f;
+  --surface: rgba(255, 255, 255, 0.94);
+  --surface-soft: rgba(244, 250, 246, 0.92);
+  --border-soft: rgba(31, 122, 83, 0.16);
+  --text-main: #173726;
+  --text-muted: #53715f;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top left, rgba(137, 211, 159, 0.55), transparent 30%),
+    linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
+}
+
+.page-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+
+.request-panel {
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  border-radius: 1.75rem;
+  background: var(--surface);
+  box-shadow: 0 24px 60px rgba(15, 81, 50, 0.12);
+}
+
+.hero-panel {
+  position: relative;
+  padding: 2.5rem 2rem;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%),
+    linear-gradient(135deg, var(--hero-green-deep), var(--hero-green));
+}
+
+.hero-panel::after {
+  content: "";
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero-panel h1 {
+  max-width: 12ch;
+  margin: 1rem 0 0.75rem;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+  font-weight: 800;
+}
+
+.hero-panel p {
+  max-width: 48ch;
+  margin: 0;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.form-panel {
+  padding: 2rem;
+  background:
+    linear-gradient(180deg, var(--surface) 0%, var(--surface-soft) 100%);
+}
+
+.section-title {
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.field-card {
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 1.2rem;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.field-card label {
+  display: block;
+  margin-bottom: 0.55rem;
+  font-weight: 600;
+  color: var(--hero-green-deep);
+}
+
+.field-card input,
+.field-card textarea,
+.field-card select {
+  width: 100%;
+}
+
+.field-card textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.selection-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(31, 122, 83, 0.22);
+  border-radius: 1.35rem;
+  background:
+    linear-gradient(135deg, rgba(137, 211, 159, 0.15), rgba(255, 255, 255, 0.92));
+}
+
+.selection-card label {
+  display: block;
+  margin-bottom: 0.65rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--hero-green-deep);
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.selection-grid .field-card {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.selection-grid select,
+.selection-grid .ts-wrapper {
+  width: 100%;
+}
+
+.selection-grid .ts-control {
+  min-height: calc(1.5em + 0.75rem + 2px);
+}
+
+.selection-help {
+  margin: 0.75rem 0 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-top: 1.75rem;
+}
+
+.action-btn {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.action-btn-primary {
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--hero-green), #2f9b69);
+  box-shadow: 0 14px 24px rgba(31, 122, 83, 0.18);
+}
+
+.action-btn-secondary {
+  border: 1px solid rgba(15, 81, 50, 0.18);
+  color: var(--hero-green-deep);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+@media (min-width: 768px) {
+  .selection-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .page-shell {
+    padding-top: 1.25rem;
+  }
+
+  .hero-panel,
+  .form-panel {
+    padding: 1.4rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

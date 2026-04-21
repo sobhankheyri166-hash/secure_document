@@ -22,6 +22,28 @@
   <main class="d-flex">
     <div class="m-auto shadow bg-white">
       <h2 class="m-3">Customer Profile Edit</h2>
+      {% if form.non_field_errors %}
+        <div class="shadow rounded alert">
+          <div class="cross-wrapper">
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="red" xmlns="http://www.w3.org/2000/svg">
+              <!-- Line 1: Top-left to bottom-right with a subtle inward curve -->
+              <path d="M18 6C15 9 9 15 6 18" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+              
+              <!-- Line 2: Top-right to bottom-left with a subtle inward curve -->
+              <path d="M6 6C9 9 15 15 18 18" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+            </svg>            
+          </div>
+          <h6 class="text-danger">{{ form.non_field_errors }}</h6>
+        </div>
+      {% endif %}
       <form method="post" enctype="multipart/form-data" class="form-control hadow">
         {% csrf_token %}
         {% for field in form %}

@@ -159,6 +159,11 @@ small {
     height: 1.35rem;
 }
 
+.cross-wrapper{
+    width: 30px;
+    height: 30px;
+}
+
 .password-reset-btn__content {
     display: flex;
     flex-direction: column;

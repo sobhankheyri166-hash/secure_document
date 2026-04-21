@@ -25,10 +25,19 @@ class Request(models.Model):
         Image = 'IMAGE', 'Image'
         Document = 'DOCUMENT', 'Document'
         Other_Types = 'OTHER_TYPES', 'Other Types'
+    class StatusChoices(models.TextChoices):
+        Answered = 'ANSWERED', 'Answered'
+        Sent = 'SENT', 'Sent'
+        Not_Sent = 'NOT_SENT', 'Not Sent'
+        Seen = 'SEEN', 'Seen'
     name = models.CharField(max_length=80)
     description = models.TextField()
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    response_status = models.CharField(
+        max_length=12,
+        choices=StatusChoices,
+        default=StatusChoices.Not_Sent)
     file_type = models.CharField(
         max_length=12,
         choices=FileTypeChoice, 

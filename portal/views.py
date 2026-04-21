@@ -32,9 +32,10 @@ class StaffWorkspaceView(LoginRequiredMixin,UserPassesTestMixin,View):
         customers_having_request = User.objects.filter(is_staff=False,file_request__isnull=False).distinct()
         if customers_having_request.exists():
             context = customers_having_request.annotate(total_requests=Count('file_request'),
-                                                last_request=Max('file_request__date_created'))
+                                                last_request=Max('file_request__date_created')).order_by('-last_request')
             return render(request,'portal/workspace.html',{'context':context})
         return render(request,'portal/workspace.html',{'text':'You Have Made No Requests Yet!'})
+    
     def test_func(self):
         return self.request.user.is_staff
 
@@ -43,47 +44,50 @@ class NewRequestView(LoginRequiredMixin,UserPassesTestMixin,View):
     def get(self,request):
         form = StaffRequestCreator()
         return render(request,'portal/new_request_creation.html',{'form':form})
+    
     def post(self,request):
         form = StaffRequestCreator(request.POST)
         if form.is_valid(): 
             form.save()
+            messages.success(request,'Request sent Successfully')
+            return redirect('new_request')
+        messages.error(request,"An Error Occured!")
         return redirect('new_request')
+    
     def test_func(self):
         return self.request.user.is_staff
     
 class EditRequestView(LoginRequiredMixin,UserPassesTestMixin,View):
     def get_obj(self):
         return get_object_or_404(Request,pk=self.kwargs.get('request_id'))
+    
     def get(self,request,*args,**kwargs):
         target_obj = self.get_obj()
         form = StaffRequestCreator(hide_user_field=True,instance=target_obj)
         return render(request,'portal/customer_request_edit.html',{'form':form})
+    
     def post(self,request,*args,**kwargs):
         target_obj = self.get_obj()
         form = StaffRequestCreator(request.POST, hide_user_field=True, instance=target_obj)
         if form.is_valid():
             form.save()
         return redirect('customer_requests_hub', customer_username=self.kwargs.get('customer_username'))
+    
     def test_func(self):
         return self.request.user.is_staff
-
-
 
 class CustomerRequestsHub(View,LoginRequiredMixin,UserPassesTestMixin):
     def get_user(self):
         return get_object_or_404(User,username=self.kwargs.get('customer_username'))
+    
     def get(self,request,*args,**kwargs):
         target_user = self.get_user()
         target_user_request = Request.objects.filter(user=target_user)
-        context = target_user_request
+        context = target_user_request.order_by('-last_modified')
         return render(request,'portal/customer_requests_hub.html',{'context':context})
+    
     def test_func(self):
         return self.request.user.is_staff
- 
-
-
-        
-
 
 class LoginPortalView(View):
     def get(self,request):
@@ -114,14 +118,13 @@ class LoginPortalView(View):
             messages.error(request,'Invalid Username or Password!')
             return redirect('login_view')
     
-
-
 class CustomersListView(UserPassesTestMixin,LoginRequiredMixin,ListView):
     template_name = 'portal/customers_list.html'
     context_object_name = 'users_info'
 
     def test_func(self):
         return self.request.user.is_staff
+    
     def get_queryset(self):
         return User.objects.filter(is_staff=False)
     
@@ -145,12 +148,15 @@ class CustomerProfileUpdateView(UserPassesTestMixin,LoginRequiredMixin,SuccessMe
 class PasswordResetView(UserPassesTestMixin,LoginRequiredMixin,View):
     def test_func(self):
         return self.request.user.is_staff
+    
     def get_user(self):
         return get_object_or_404(User,username=self.kwargs.get('customer_username'))
+    
     def get(self,request,*args,**kwargs):
         user = self.get_user()
         form = SetPasswordForm(user)
         return render(request,'portal/reset_password.html',{'form':form,'user':user})
+    
     def post(self,request,*args,**kwargs):
         user = self.get_user()
         form = SetPasswordForm(user,request.POST)

@@ -5,90 +5,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
-    <title>Document</title>
+    <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <title>Requests Hub</title>
     <style>
+      body{
+        min-height: 100vh;
+        padding: 1rem;
+        background:
+          radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 30%),
+          radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.12), transparent 28%),
+          radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.10), transparent 24%),
+          linear-gradient(135deg, #f8fbff 0%, #f4f7fb 45%, #eef3f8 100%);
+        background-attachment: fixed;
+      }
 
-      .card-body img{
+      body::before{
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px);
+        background-size: 32px 32px;
+        mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 85%);
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 85%);
+      }
+
+      .card{
+        border-radius: 1rem;
+        margin: 1rem;
+        border: 1px solid rgba(255,255,255,0.7);
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 10px 24px rgba(20, 60, 45, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .card:hover{
+        transform: translateY(-5px) ;
+        box-shadow: 0 16px 28px rgba(20, 60, 45, 0.1);
+      }
+
+      .file-type-icons{
         width: 30px;
         height: 30px;
       }
 
+      .request-actions{
+        display: flex;
+        align-items: center;
+        gap: 0.65rem;
+        margin: auto 0 auto auto;
+      }
+
+      .action-btn{
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.85rem;
+        border: 1px solid transparent;
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+      }
+
+      .action-btn svg{
+        width: 1.1rem;
+        height: 1.1rem;
+      }
+
+      .action-btn:hover{
+        transform: translateY(-1px);
+      }
+
+      .action-btn--edit{
+        background-color: #eef4ff;
+        border-color: #cdddff;
+        color: #1f5eff;
+      }
+
+      .action-btn--edit:hover{
+        background-color: #dfeaff;
+        border-color: #b3ccff;
+        color: #184ecc;
+      }
+
+      .action-btn--delete{
+        background-color: #fff1f2;
+        border-color: #fecdd3;
+        color: #dc3545;
+      }
+
+      .action-btn--delete:hover{
+        background-color: #ffe0e4;
+        border-color: #fda4af;
+        color: #b42318;
+      }
+
+      .status-answered{
+        background-color: green;
+      }
+
+      .status-sent{
+        background-color: blueviolet;
+      }
+
+      .status-not_sent{
+        background-color: red;
+      }
+
+      .status-seen{
+        background-color: darkcyan;
+      }
+
+      .breadcrumb{
+        border: 1px solid rgba(255,255,255,0.7);
+        border-radius: 1rem;
+        background: rgba(255,255,255,0.7);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
+      }
     </style>
 </head>
-<body>
-  <nav class="d-flex justify-content-between">
-    <div>
-      
-    </div>
-    <a href="{% url 'workspace' %}">
-      <img src="{% static 'images/icons/arrow-left.svg' %}" alt="back to previous page" class="back-btn">
-    </a>    
+<body class="d-flex flex-column">
+  <nav class="breadcrumb p-3">
+    {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+    <li class="breadcrumb-item">{{ context.0.user.get_full_name }}'s Requests Hub</li>
   </nav>
 
-  <section>
+  <main class="d-flex flex-wrap">
     {% for item in context %}
-      <div class="card">
+      <section class="card">
         <div class="card-body">
-          <h6 class="card-title">{{ item.name }}</h6>
-          <p class="text-muted">Created: {{ item.date_created }}</p>
-          <p class="text-muted">Modified: {{ item.last_modified }}</p>
-          <a href="">
-            <img src="{% static 'images/icons/pencil.svg' %}" alt="edit" class="edit-icon">
-          </a>
+          <div class="d-flex flex-row gap-5">
+            <div>
+              <div>
+                {% if item.file_type == "IMAGE" %}
+                  <img src="{% static 'images/icons/image.svg' %}" alt="image file" class="file-type-icons">
+                {% elif item.file_type == "DOCUMENT" %}
+                  <img src="{% static 'images/icons/file.svg' %}" alt="document file" class="file-type-icons">
+                {% elif item.file_type == "OTHER_TYPES" %}
+                  <img src="{% static 'images/icons/ellipsis.svg' %}" alt="other file types" class="file-type-icons">
+                {% else %}
+                <img src="" alt="file type">
+                {% endif %}   
+                <h6 class="card-title d-inline">{{ item.name }}</h6>       
+              </div>
+              <div>
+                <span class="d-inline-block rounded-circle status-{{ item.response_status|lower }}" 
+                  style="width:10px; height:10px;">
+                </span>
+                <span class="text-muted">{{ item.get_response_status_display }}</span>
+              </div>
+              <p class="text-muted mb-1">Created: {{ item.date_created }}</p>
+              <p class="text-muted">Modified: {{ item.last_modified }}</p> 
+            </div>  
+            <div class="request-actions">
+              <a href="" class="action-btn action-btn--edit" data-bs-toggle="tooltip" 
+              data-bs-placement="bottom" aria-label="Edit request" title="Edit">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden="true">
+                  <path
+                    d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Z"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+                  <path
+                    d="M14.06 4.94l3.75 3.75"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"/>
+                </svg>
+              </a> 
+              <a href="" class="action-btn action-btn--delete" data-bs-toggle="tooltip"
+              data-bs-placement="bottom" aria-label="Delete request" title="Delete">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M9.75 3.75h4.5m-9 3h13.5m-1.5 0-1.06 11.14a2.25 2.25 0 0 1-2.24 2.03H10.05a2.25 2.25 0 0 1-2.24-2.03L6.75 6.75m4.5 3.75v5.25m3-5.25v5.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>          
+
+          </div>
         </div>
-      </div>
+      </section>
       {% endfor %}
-  </section>
+  </main>
 
 
 
 
 
 
-
-
-
-
-
-
-
-  
-  <!-- <div class="d-flex justify-content-center">
-    <div class="card d-inline-block">
-      <div class="card-header">
-        File Requests
-      </div>
-      <div class="card-body">
-        <table class="table-responsive table-hover">
-            <thead>
-              <th class="text-center">Number</th>
-              <th class="text-center">File Name</th>
-              <th class="text-center">Last Modified at</th>
-              <th class="text-center">Registeration Date</th>
-              <th class="text-center">Edit</th>
-            </thead>
-            <tbody>
-              {% for item in context %}
-              <tr>
-                <td class="text-center">{{ forloop.counter }}</td>
-                <td class="text-center">{{ item.name }}</td>
-                <td>{{ item.last_modified }}</td>
-                <td class="text-center">{{ item.date_created }}</td>
-                <td class="text-center">
-                  <a href="{% url 'customer_request_edit' request_id=item.pk customer_username=item.user.username %}">
-                    <img src="{% static 'images/icons/pencil.svg' %}" alt="edit" class="edit-icon">
-                  </a>                        
-                </td>            
-              </tr>
-              {% endfor %}
-            </tbody>
-        </table>        
-
-      </div>
-    </div>    
-  </div> -->
-
-
+  <script src="{% static 'portal/js/bootstrap_tooltip.js' %}"></script>
   
 </body>
 </html>

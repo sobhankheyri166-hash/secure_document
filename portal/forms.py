@@ -57,11 +57,12 @@ class StaffRequestCreator(forms.ModelForm):
             'user' : forms.Select(attrs={'class':'form-select'})
         }
     def __init__(self,*args,**kwargs):
-        hide_user_field = kwargs.pop('hide_user_field',False)
         super().__init__(*args,**kwargs)
-
+        hide_user_field = kwargs.pop('hide_use_field',False)
+        self.fields['user'].queryset = User.objects.filter(is_staff=False)
         if hide_user_field:
             del self.fields['user']
+
 
         
         
