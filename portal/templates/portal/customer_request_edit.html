@@ -1,10 +1,101 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/theme.css' %}">
+    <script>
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
+    <style>
+      html:not([data-theme]) body{
+        --edit-page-bg: white;
+        --edit-page-text: #212529;
+        --edit-form-bg: transparent;
+        --edit-form-border: transparent;
+        --edit-form-shadow: none;
+        --edit-field-bg: white;
+        --edit-field-text: #212529;
+        --edit-field-border: #ced4da;
+        --edit-save-color: #6c757d;
+        --edit-back-color: #0dcaf0;
+      }
+
+      body{
+        --edit-page-bg: var(--overlay-bg-base);
+        --edit-page-text: var(--page-text);
+        --edit-form-bg: var(--panel-bg);
+        --edit-form-border: rgba(108, 117, 125, 0.2);
+        --edit-form-shadow: var(--box-shadow);
+        --edit-field-bg: var(--input-bg);
+        --edit-field-text: var(--input-text);
+        --edit-field-border: rgba(108, 117, 125, 0.28);
+        --edit-save-color: var(--color-secondary);
+        --edit-back-color: var(--color-primary);
+      }
+
+      body{
+        min-height: 100vh;
+        margin: 0;
+        padding: 1rem;
+        background: var(--edit-page-bg);
+        color: var(--edit-page-text);
+      }
+
+      form{
+        width: min(100%, 760px);
+        margin: 2rem auto;
+        padding: 1.5rem;
+        border: 1px solid var(--edit-form-border);
+        border-radius: 1.25rem;
+        background: var(--edit-form-bg);
+        box-shadow: var(--edit-form-shadow);
+      }
+
+      label{
+        color: var(--edit-page-text);
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      textarea{
+        background: var(--edit-field-bg) !important;
+        color: var(--edit-field-text) !important;
+        border-color: var(--edit-field-border) !important;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus{
+        border-color: var(--color-primary) !important;
+        box-shadow: var(--box-shadow-focus) !important;
+      }
+
+      .btn-outline-secondary{
+        border-color: var(--edit-save-color);
+        color: var(--edit-save-color);
+      }
+
+      .btn-outline-secondary:hover{
+        background: var(--edit-save-color);
+        color: var(--panel-bg);
+      }
+
+      .btn-outline-info{
+        border-color: var(--edit-back-color);
+        color: var(--edit-back-color);
+      }
+
+      .btn-outline-info:hover{
+        background: var(--edit-back-color);
+        color: white;
+      }
+    </style>
 
     <title>Document</title>
 </head>

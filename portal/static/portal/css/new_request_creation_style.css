@@ -1,23 +1,66 @@
-:root {
-  --page-top: #f4fbf5;
-  --page-bottom: #d6efd9;
+html:not([data-theme]) body {
+  --request-page-bg:
+    radial-gradient(circle at top left, rgba(137, 211, 159, 0.55), transparent 30%),
+    linear-gradient(180deg, #f4fbf5 0%, #d6efd9 100%);
   --hero-green: #1f7a53;
   --hero-green-deep: #0f5132;
   --hero-accent: #89d39f;
   --surface: rgba(255, 255, 255, 0.94);
   --surface-soft: rgba(244, 250, 246, 0.92);
+  --field-bg: rgba(255, 255, 255, 0.82);
+  --field-bg-strong: rgba(255, 255, 255, 0.92);
+  --field-text: #173726;
+  --field-border: rgba(31, 122, 83, 0.16);
+  --field-focus-border: rgba(31, 122, 83, 0.45);
+  --field-focus-shadow: 0 0 0 0.22rem rgba(31, 122, 83, 0.14);
   --border-soft: rgba(31, 122, 83, 0.16);
+  --selection-border: rgba(31, 122, 83, 0.22);
+  --selection-bg: linear-gradient(135deg, rgba(137, 211, 159, 0.15), rgba(255, 255, 255, 0.92));
   --text-main: #173726;
   --text-muted: #53715f;
+  --label-color: #0f5132;
+  --panel-shadow: 0 24px 60px rgba(15, 81, 50, 0.12);
+  --primary-shadow: 0 14px 24px rgba(31, 122, 83, 0.18);
+  --secondary-bg: rgba(255, 255, 255, 0.75);
+  --secondary-border: rgba(15, 81, 50, 0.18);
+  --dropdown-bg: #fff;
+  --dropdown-hover-bg: rgba(137, 211, 159, 0.14);
+  --input-bg: white;
+}
+
+body {
+  --request-page-bg: var(--overlay-bg-base);
+  --hero-green: #3fbc82;
+  --hero-green-deep: #123f35;
+  --hero-accent: #e8bd78;
+  --surface: var(--panel-bg);
+  --surface-soft: var(--panel-soft-bg);
+  --field-bg: var(--input-bg);
+  --field-bg-strong: var(--input-bg);
+  --field-text: var(--input-text);
+  --field-border: rgba(215, 226, 236, 0.22);
+  --field-focus-border: var(--color-primary);
+  --field-focus-shadow: var(--box-shadow-focus);
+  --border-soft: rgba(215, 226, 236, 0.2);
+  --selection-border: rgba(215, 226, 236, 0.22);
+  --selection-bg: linear-gradient(135deg, rgba(63, 188, 130, 0.12), rgba(35, 45, 61, 0.94));
+  --text-main: var(--page-text);
+  --text-muted: var(--page-muted-text);
+  --label-color: #8ee0b0;
+  --panel-shadow: var(--box-shadow-lg);
+  --primary-shadow: 0 14px 24px rgba(0, 0, 0, 0.24);
+  --secondary-bg: var(--input-bg);
+  --secondary-border: rgba(215, 226, 236, 0.22);
+  --dropdown-bg: var(--panel-bg);
+  --dropdown-hover-bg: rgba(59, 130, 246, 0.16);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at top left, rgba(137, 211, 159, 0.55), transparent 30%),
-    linear-gradient(180deg, var(--page-top) 0%, var(--page-bottom) 100%);
+  background: var(--request-page-bg);
+  background-attachment: fixed;
 }
 
 .page-shell {
@@ -26,12 +69,26 @@ body {
   padding: 2rem 1rem 3rem;
 }
 
+.breadcrumb,
+.breadcrumb a,
+.breadcrumb-item {
+  color: var(--text-muted);
+}
+
+.breadcrumb a {
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--label-color);
+}
+
 .request-panel {
   overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: 1.75rem;
   background: var(--surface);
-  box-shadow: 0 24px 60px rgba(15, 81, 50, 0.12);
+  box-shadow: var(--panel-shadow);
 }
 
 .hero-panel {
@@ -98,20 +155,35 @@ body {
   padding: 1rem;
   border: 1px solid var(--border-soft);
   border-radius: 1.2rem;
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--field-bg);
 }
 
 .field-card label {
   display: block;
   margin-bottom: 0.55rem;
   font-weight: 600;
-  color: var(--hero-green-deep);
+  color: var(--label-color);
 }
 
 .field-card input,
 .field-card textarea,
 .field-card select {
   width: 100%;
+  border-color: var(--field-border) !important;
+  background-color: var(--field-bg-strong) !important;
+  color: var(--field-text) !important;
+}
+
+.field-card input:focus,
+.field-card textarea:focus,
+.field-card select:focus {
+  border-color: var(--field-focus-border) !important;
+  box-shadow: var(--field-focus-shadow) !important;
+}
+
+.field-card input::placeholder,
+.field-card textarea::placeholder {
+  color: var(--text-muted);
 }
 
 .field-card textarea {
@@ -119,12 +191,19 @@ body {
   resize: vertical;
 }
 
+.field-card .ts-wrapper{
+  background-color: var(--input-bg);
+}
+
+.alert, .alert-ul{
+  background-color: #f8d7da !important;
+}
+
 .selection-card {
   padding: 1.25rem;
-  border: 1px solid rgba(31, 122, 83, 0.22);
+  border: 1px solid var(--selection-border);
   border-radius: 1.35rem;
-  background:
-    linear-gradient(135deg, rgba(137, 211, 159, 0.15), rgba(255, 255, 255, 0.92));
+  background: var(--selection-bg);
 }
 
 .selection-card label {
@@ -132,7 +211,7 @@ body {
   margin-bottom: 0.65rem;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--hero-green-deep);
+  color: var(--label-color);
 }
 
 .selection-grid {
@@ -142,7 +221,7 @@ body {
 }
 
 .selection-grid .field-card {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--field-bg-strong);
 }
 
 .selection-grid select,
@@ -152,6 +231,41 @@ body {
 
 .selection-grid .ts-control {
   min-height: calc(1.5em + 0.75rem + 2px);
+}
+
+.ts-wrapper .ts-control,
+.ts-wrapper.single .ts-control,
+.ts-dropdown {
+  border-color: var(--field-border) !important;
+  background: var(--field-bg-strong) !important;
+  color: var(--field-text) !important;
+}
+
+.ts-wrapper.focus .ts-control {
+  border-color: var(--field-focus-border) !important;
+  box-shadow: var(--field-focus-shadow) !important;
+}
+
+.ts-control input,
+.ts-control .item,
+.ts-dropdown .option {
+  color: var(--field-text) !important;
+}
+
+.ts-dropdown {
+  background: var(--dropdown-bg) !important;
+  box-shadow: var(--panel-shadow);
+}
+
+.ts-dropdown .active {
+  background: var(--dropdown-hover-bg) !important;
+}
+
+.alert,
+.shadow.rounded {
+  background: var(--field-bg-strong);
+  color: var(--field-text);
+  border-color: var(--field-border);
 }
 
 .selection-help {
@@ -178,13 +292,13 @@ body {
   border: none;
   color: #fff;
   background: linear-gradient(135deg, var(--hero-green), #2f9b69);
-  box-shadow: 0 14px 24px rgba(31, 122, 83, 0.18);
+  box-shadow: var(--primary-shadow);
 }
 
 .action-btn-secondary {
-  border: 1px solid rgba(15, 81, 50, 0.18);
-  color: var(--hero-green-deep);
-  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid var(--secondary-border);
+  color: var(--label-color);
+  background: var(--secondary-bg);
 }
 
 @media (min-width: 768px) {

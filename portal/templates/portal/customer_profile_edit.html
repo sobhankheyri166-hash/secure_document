@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'portal/css/theme.css' %}">
     <link rel="stylesheet" href="{% static 'portal/css/customer_profile_edit_style.css' %}">
-    <title>Edit Customer Profile</title>
+    <title>Update Customer Profile</title>
 </head>
 
-<body class="profile-edit-page">
-  <header class="container-fluid profile-header"></header>
+<body>
+  <header class="container-fluid"></header>
     <nav class="breadcrumb-nav ms-2" aria-label="breadcrumb">
         <ol class="breadcrumb">
           {% include 'portal/partials/workspace_breadcrumb_item.html' %}
@@ -21,7 +21,7 @@
     </nav>  
 
   <main class="d-flex">
-    <div class="m-auto shadow profile-edit-card">
+    <div class="m-auto">
       <h2 class="m-3">Customer Profile Edit</h2>
       {% if form.non_field_errors %}
         <div class="shadow rounded alert m-3 non-field-err-wrapper">
@@ -75,21 +75,36 @@
           {% elif field.name == "first_name" %}
             <label for="first_name" class="form-label">First Name</label>
               {{ field }}
+            {% if form.first_name.errors %}
+              <div class="error-message" >{{ form.first_name.errors }}</div>
+            {% endif %}
           {% elif field.name == "last_name" %}
             <label for="last_name" class="form-label">Last Name</label>
               {{ field }}
+            {% if form.last_name.errors %}
+              <div class="error-message">{{ form.last_name.errors }}</div>
+            {% endif %}
           {% elif field.name == "username" %}
             <label for="username" class="form-label">Username</label>
               {{ field }}
+            {% if form.username.errors %}
+              <div class="alert-danger">{{ form.username.errors }}</div>
+            {% endif %}
           {% elif field.name == "email" %}
             <label for="email" class="form-label">Email Address</label>
               {{ field }}
+            {% if form.email.errors %}
+              <div class="error-message">{{ form.email.errors }}</div>
+            {% endif %}
           {% elif field.name == "is_active" %}
             <label for="is_active" class="form-label">Is Active:</label>
             {{ field }}
             <small id="id_is_active_helptext" class="d-block mb-3">
               Designates whether this user should be treated as active. Unselect this instead of deleting accounts.
             </small>
+            {% if form.is_active.errors %}
+              <div class="error-message">{{ form.is_active.errors }}</div>
+            {% endif %}
           {% endif %}
         {% endfor %} 
         <a href="{% url 'admin_password_reset' customer_obj.username %}" class="password-reset-btn">
@@ -116,7 +131,28 @@
 
 
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('theme-toggle');
+        const htmlElement = document.documentElement; // Targets the <html> tag
 
+        // 1. Check if the user previously selected dark mode
+        if (localStorage.getItem('theme') === 'dark') {
+            htmlElement.setAttribute('data-theme', 'dark');
+        }
+
+        // 2. Toggle the theme on click
+        toggleBtn.addEventListener('click', () => {
+            if (htmlElement.getAttribute('data-theme') === 'dark') {
+                htmlElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    });
+  </script>
 
   <script>
     const pictureInput = document.getElementById("id_profile_picture");

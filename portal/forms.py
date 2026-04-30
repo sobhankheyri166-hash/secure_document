@@ -16,12 +16,7 @@ class CustomerProfileUpdateForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
             'profile_picture': forms.ClearableFileInput(attrs={'class': 'form-control','aria-describedby': 'profile_pict_helptext'}),
         }
-    def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        if username == 'test':
-            raise ValidationError('This is to test')
-        return cleaned_data
+
 
 class CustomerCreationForm(UserCreationForm):
     profile_picture = forms.ImageField(

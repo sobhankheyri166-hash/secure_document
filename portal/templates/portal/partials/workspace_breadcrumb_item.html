@@ -1,23 +1,46 @@
 {% load static %}
 <style>
-  .home-breadcrumb-a{
-    text-decoration: none; 
-    color: #255e63;
+  .breadcrumb-nav {
+      padding: 0.9rem 1rem 0.4rem;
   }
 
-  .home-breadcrumb-a:hover{
-    text-decoration: underline;
+  .breadcrumb {
+      flex-wrap: wrap;
+      row-gap: 0.35rem;
+      margin-bottom: 0;
   }
 
-  .home-breadcrumb-a img{
+  .breadcrumb-item , .breadcrumb-item a , .breadcrumb-item::before{
+      color: var(--page-text) !important;
+  }
+
+  .breadcrumb-item {
+      white-space: nowrap;
+  }
+
+  .breadcrumb-item a {
+      text-decoration: none;
+  }
+
+  .breadcrumb-item a:hover {
+      text-decoration: underline;
+  }
+
+  .breadcrumb-item.active{
+      font-weight: 600;
+  }
+
+  .breadcrumb-item a svg{
+    color: var(--color-svg);
     width: 20px; 
     height: 20px; 
     margin-top: 0.1rem;
   }
 </style>
+
 <li class="breadcrumb-item">
-  <a href="{% url 'workspace' %}" class="d-flex flex-row gap-1 home-breadcrumb-a">
-    <img src="{% static 'images/icons/house.svg' %}" alt="go to workspace" class="home-btn">
+  <a href="{% url 'workspace' %}" class="d-flex flex-row gap-1">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 672 672"><!--! Font Awesome Pro 7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2026 Fonticons, Inc. --><path fill="currentColor" d="M357 588L588 588L588 252L336 28L84 252L84 588L315 588L315 413C315 401.4 324.4 392 336 392C347.6 392 357 401.4 357 413L357 588z"/></svg>
     <span>Workspace</span> 
   </a>
 </li>

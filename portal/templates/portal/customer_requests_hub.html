@@ -5,18 +5,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'portal/css/theme.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
     <title>Requests Hub</title>
+    <script>
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
     <style>
-      body{
-        min-height: 100vh;
-        padding: 1rem;
-        background:
+      html:not([data-theme]) body{
+        --hub-page-bg:
           radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 30%),
           radial-gradient(circle at 85% 15%, rgba(16, 185, 129, 0.12), transparent 28%),
           radial-gradient(circle at 80% 80%, rgba(249, 115, 22, 0.10), transparent 24%),
           linear-gradient(135deg, #f8fbff 0%, #f4f7fb 45%, #eef3f8 100%);
+        --hub-text: inherit;
+        --hub-grid-line: rgba(255,255,255,0.35);
+        --hub-card-bg: rgba(255, 255, 255, 0.82);
+        --hub-card-border: rgba(255,255,255,0.7);
+        --hub-card-shadow: 0 10px 24px rgba(20, 60, 45, 0.06);
+        --hub-card-hover-shadow: 0 16px 28px rgba(20, 60, 45, 0.1);
+        --hub-edit-bg: #eef4ff;
+        --hub-edit-border: #cdddff;
+        --hub-edit-color: #1f5eff;
+        --hub-edit-hover-bg: #dfeaff;
+        --hub-edit-hover-border: #b3ccff;
+        --hub-edit-hover-color: #184ecc;
+        --hub-delete-bg: #fff1f2;
+        --hub-delete-border: #fecdd3;
+        --hub-delete-color: #dc3545;
+        --hub-delete-hover-bg: #ffe0e4;
+        --hub-delete-hover-border: #fda4af;
+        --hub-delete-hover-color: #b42318;
+        --hub-breadcrumb-bg: rgba(255,255,255,0.7);
+        --hub-breadcrumb-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
+      }
+
+      body{
+        --hub-page-bg: var(--overlay-bg-base);
+        --hub-text: var(--page-text);
+        --hub-grid-line: rgba(108, 117, 125, 0.18);
+        --hub-card-bg: var(--panel-bg);
+        --hub-card-border: rgba(108, 117, 125, 0.2);
+        --hub-card-shadow: var(--box-shadow-sm);
+        --hub-card-hover-shadow: var(--box-shadow);
+        --hub-edit-bg: var(--input-bg);
+        --hub-edit-border: var(--color-primary);
+        --hub-edit-color: var(--color-primary);
+        --hub-edit-hover-bg: var(--color-primary);
+        --hub-edit-hover-border: var(--color-primary);
+        --hub-edit-hover-color: white;
+        --hub-delete-bg: var(--input-bg);
+        --hub-delete-border: var(--color-danger);
+        --hub-delete-color: var(--color-danger);
+        --hub-delete-hover-bg: var(--color-danger);
+        --hub-delete-hover-border: var(--color-danger);
+        --hub-delete-hover-color: white;
+        --hub-breadcrumb-bg: var(--panel-bg);
+        --hub-breadcrumb-shadow: var(--box-shadow-sm);
+      }
+
+      body{
+        min-height: 100vh;
+        padding: 1rem;
+        background: var(--hub-page-bg);
         background-attachment: fixed;
+        color: var(--hub-text);
       }
 
       body::before{
@@ -25,8 +80,8 @@
         inset: 0;
         pointer-events: none;
         background-image:
-          linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px);
+          linear-gradient(var(--hub-grid-line) 1px, transparent 1px),
+          linear-gradient(90deg, var(--hub-grid-line) 1px, transparent 1px);
         background-size: 32px 32px;
         mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 85%);
         -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 85%);
@@ -35,21 +90,27 @@
       .card{
         border-radius: 1rem;
         margin: 1rem;
-        border: 1px solid rgba(255,255,255,0.7);
-        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid var(--hub-card-border);
+        background: var(--hub-card-bg);
         backdrop-filter: blur(10px);
-        box-shadow: 0 10px 24px rgba(20, 60, 45, 0.06);
+        box-shadow: var(--hub-card-shadow);
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        color: var(--hub-text);
       }
 
       .card:hover{
         transform: translateY(-5px) ;
-        box-shadow: 0 16px 28px rgba(20, 60, 45, 0.1);
+        box-shadow: var(--hub-card-hover-shadow);
       }
 
       .file-type-icons{
+        display: inline;
+      }
+
+      .file-type-icons svg{
         width: 30px;
         height: 30px;
+        color: var(--color-svg);
       }
 
       .request-actions{
@@ -80,27 +141,27 @@
       }
 
       .action-btn--edit{
-        background-color: #eef4ff;
-        border-color: #cdddff;
-        color: #1f5eff;
+        background-color: var(--hub-edit-bg);
+        border-color: var(--hub-edit-border);
+        color: var(--hub-edit-color);
       }
 
       .action-btn--edit:hover{
-        background-color: #dfeaff;
-        border-color: #b3ccff;
-        color: #184ecc;
+        background-color: var(--hub-edit-hover-bg);
+        border-color: var(--hub-edit-hover-border);
+        color: var(--hub-edit-hover-color);
       }
 
       .action-btn--delete{
-        background-color: #fff1f2;
-        border-color: #fecdd3;
-        color: #dc3545;
+        background-color: var(--hub-delete-bg);
+        border-color: var(--hub-delete-border);
+        color: var(--hub-delete-color);
       }
 
       .action-btn--delete:hover{
-        background-color: #ffe0e4;
-        border-color: #fda4af;
-        color: #b42318;
+        background-color: var(--hub-delete-hover-bg);
+        border-color: var(--hub-delete-hover-border);
+        color: var(--hub-delete-hover-color);
       }
 
       .status-answered{
@@ -120,18 +181,23 @@
       }
 
       .breadcrumb{
-        border: 1px solid rgba(255,255,255,0.7);
+        border: 1px solid var(--hub-card-border);
         border-radius: 1rem;
-        background: rgba(255,255,255,0.7);
+        background: var(--hub-breadcrumb-bg);
         backdrop-filter: blur(8px);
-        box-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
+        box-shadow: var(--hub-breadcrumb-shadow);
+        color: var(--hub-text);
+      }
+
+      .text-muted{
+        color: var(--page-muted-text) !important;
       }
     </style>
 </head>
 <body class="d-flex flex-column">
   <nav class="breadcrumb p-3">
     {% include 'portal/partials/workspace_breadcrumb_item.html' %}
-    <li class="breadcrumb-item">{{ context.0.user.get_full_name }}'s Requests Hub</li>
+    <li class="breadcrumb-item active">{{ context.0.user.get_full_name }}'s Requests Hub</li>
   </nav>
 
   <main class="d-flex flex-wrap">
@@ -142,11 +208,17 @@
             <div>
               <div>
                 {% if item.file_type == "IMAGE" %}
-                  <img src="{% static 'images/icons/image.svg' %}" alt="image file" class="file-type-icons">
+                  <div class="file-type-icons">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--! Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc. --><path fill="currentColor" d="M160 144C151.2 144 144 151.2 144 160L144 480C144 488.8 151.2 496 160 496L480 496C488.8 496 496 488.8 496 480L496 160C496 151.2 488.8 144 480 144L160 144zM96 160C96 124.7 124.7 96 160 96L480 96C515.3 96 544 124.7 544 160L544 480C544 515.3 515.3 544 480 544L160 544C124.7 544 96 515.3 96 480L96 160zM224 192C241.7 192 256 206.3 256 224C256 241.7 241.7 256 224 256C206.3 256 192 241.7 192 224C192 206.3 206.3 192 224 192zM360 264C368.5 264 376.4 268.5 380.7 275.8L460.7 411.8C465.1 419.2 465.1 428.4 460.8 435.9C456.5 443.4 448.6 448 440 448L200 448C191.1 448 182.8 443 178.7 435.1C174.6 427.2 175.2 417.6 180.3 410.3L236.3 330.3C240.8 323.9 248.1 320.1 256 320.1C263.9 320.1 271.2 323.9 275.7 330.3L292.9 354.9L339.4 275.9C343.7 268.6 351.6 264.1 360.1 264.1z"/></svg>
+                  </div>
                 {% elif item.file_type == "DOCUMENT" %}
-                  <img src="{% static 'images/icons/file.svg' %}" alt="document file" class="file-type-icons">
+                  <div class="file-type-icons">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--! Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc. --><path fill="currentColor" d="M304 112L192 112C183.2 112 176 119.2 176 128L176 512C176 520.8 183.2 528 192 528L448 528C456.8 528 464 520.8 464 512L464 272L376 272C336.2 272 304 239.8 304 200L304 112zM444.1 224L352 131.9L352 200C352 213.3 362.7 224 376 224L444.1 224zM128 128C128 92.7 156.7 64 192 64L325.5 64C342.5 64 358.8 70.7 370.8 82.7L493.3 205.3C505.3 217.3 512 233.6 512 250.6L512 512C512 547.3 483.3 576 448 576L192 576C156.7 576 128 547.3 128 512L128 128z"/></svg>                
+                  </div>
                 {% elif item.file_type == "OTHER_TYPES" %}
-                  <img src="{% static 'images/icons/ellipsis.svg' %}" alt="other file types" class="file-type-icons">
+                  <div class="file-type-icons">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--! Font Awesome Pro 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2025 Fonticons, Inc. --><path fill="currentColor" d="M544 320C544 346.5 522.5 368 496 368C469.5 368 448 346.5 448 320C448 293.5 469.5 272 496 272C522.5 272 544 293.5 544 320zM368 320C368 346.5 346.5 368 320 368C293.5 368 272 346.5 272 320C272 293.5 293.5 272 320 272C346.5 272 368 293.5 368 320zM144 368C117.5 368 96 346.5 96 320C96 293.5 117.5 272 144 272C170.5 272 192 293.5 192 320C192 346.5 170.5 368 144 368z"/></svg>
+                  </div>
                 {% else %}
                 <img src="" alt="file type">
                 {% endif %}   

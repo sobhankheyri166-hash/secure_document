@@ -1,19 +1,76 @@
-  :root {
-    /* global palette */
-    --color-bg-base: #f5f7fb;
-    --color-surface: #ffffff;
-    --color-surface-soft: #eef3f8;
-    --color-text: #18212b;
-    --color-text-muted: #5f6b7a;
-    --color-border: #d5dde7;
-    --color-primary: #0d6efd;
-    --color-danger: #c0392b;
+:root {
+  --white-500: #f5f7fb;
+  --color-layered-gradient: linear-gradient(135deg, #f5f7fb 0%, #1a2e2f 100%);
+  --color-basic-gradient: linear-gradient(90deg, #11383c 0%, #1d5c57 100%);
+  --color-surface-soft: #eef3f8;
+  --color-text: #18212b;
+  --color-text-muted: #303a44;
+  --color-primary: #0d6efd;
+  --color-danger: #c0392b;
+  --color-secondary: #6c757d;
+  --shadow-sm: 0 8px 18px rgba(26, 50, 66, 0.08);
+  --shadow-md: 0 16px 36px rgba(26, 50, 66, 0.12);
+  --shadow-lg: 0 26px 60px rgba(26, 50, 66, 0.16);
+  --shadow-focus: 0 0 0 0.22rem rgba(13, 110, 253, 0.16);
+  --shadow-inset: inset 0 1px 2px rgba(20, 46, 49, 0.05);
+  --border-plain: 1px solid rgba(108, 117, 125, 0.2);
+  
 
-    /* default semantic aliases */
-    --page-bg: var(--color-bg-base);
-    --panel-bg: var(--color-surface);
-    --panel-soft-bg: var(--color-surface-soft);
-    --page-text: var(--color-text);
-    --page-muted-text: var(--color-text-muted);
-    --page-border: var(--color-border);
-  }
+  --page-bg: var(--white-500);
+  --overlay-bg-base: var(--color-layered-gradient);
+  --overlay-bg-header: var(--color-basic-gradient);
+  --panel-bg: var(--color-surface-soft);
+  --panel-soft-bg: var(--color-surface-soft);
+  --page-text: var(--color-text);
+  --page-muted-text: var(--color-text-muted);
+  --color-svg: var(--color-text);
+  --input-bg: var(--color-surface-soft);
+  --input-text: var(--color-text);
+  --box-shadow-sm: var(--shadow-sm);
+  --box-shadow: var(--shadow-md);
+  --box-shadow-lg: var(--shadow-lg);
+  --box-shadow-focus: var(--shadow-focus);
+  --box-shadow-inset: var(--shadow-inset);
+  --border: var(--border-plain);
+}
+
+[data-theme="dark"] {
+  --white-500: #0f1520;  
+  --color-layered-gradient:
+    radial-gradient(circle at top left, rgba(232, 189, 120, 0.08), transparent 30%),
+    radial-gradient(circle at top right, rgba(101, 175, 156, 0.08), transparent 30%),
+    linear-gradient(180deg, #142022 0%, #10191b 48%, #122124 100%);     
+  --color-surface: #1a222f;       
+  --color-surface-soft: #232d3d;  
+  --color-text: #f8f9fa;    
+  --color-text-muted: #9ca3af;    
+  --color-primary: #3b82f6;       
+  --color-danger: #ef4444;     
+  --color-secondary: #adb5bd;
+  --shadow-sm: 0 8px 18px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 16px 36px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.42);
+  --shadow-focus: 0 0 0 0.22rem rgba(59, 130, 246, 0.22);
+  --shadow-inset: inset 0 1px 2px rgba(255, 255, 255, 0.04);
+  --border-plain: 1px solid rgba(215, 226, 236, 0.746);
+}
+
+.shadow-sm {
+  box-shadow: var(--box-shadow-sm) !important;
+}
+
+.shadow {
+  box-shadow: var(--box-shadow) !important;
+}
+
+.shadow-lg {
+  box-shadow: var(--box-shadow-lg) !important;
+}
+
+.shadow-focus {
+  box-shadow: var(--box-shadow-focus) !important;
+}
+
+.shadow-inset {
+  box-shadow: var(--box-shadow-inset) !important;
+}
