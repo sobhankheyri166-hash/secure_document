@@ -26,6 +26,14 @@ def customer_delete(request,customer_username):
     customer_to_delete.delete()
     return redirect('customers_list')
 
+@login_required
+@user_passes_test(staff_check)
+@require_POST
+def request_delete(request,request_id):
+    request_to_delete = get_object_or_404(Request, pk=request_id)
+    target_username = request_to_delete.user.username
+    request_to_delete.delete()
+    return redirect('customer_requests_hub', target_username)
 
 class StaffWorkspaceView(LoginRequiredMixin,UserPassesTestMixin,View):
     def get(self,request):
@@ -94,7 +102,7 @@ class LoginPortalView(View):
         if request.user.is_authenticated:
             if request.user.is_staff:
                 return redirect('workspace')
-            return redirect('customer_dashboard')
+            return redirect('customer_hub', request.user.username)
         return render(request,'portal/login.html')
 
     def post(self,request):
@@ -177,4 +185,10 @@ class CustomerCreationView(LoginRequiredMixin,UserPassesTestMixin,SuccessMessage
     def test_func(self):
         return self.request.user.is_staff
 
+class CustomerDashboardHub(LoginRequiredMixin,View):  
+    def get_user(self):
+        target_user = get_object_or_404(User,username=self.kwargs.get('customer_username'))
 
+    def get(self,request,*args,**kwargs):
+        user = self.get_user()
+        return render(request, 'portal/customer_dashboard.html', {'user':user})

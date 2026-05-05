@@ -56,14 +56,9 @@ body {
   z-index: 1;
 }
 
-.breadcrumb {
-  margin-bottom: 0;
-}
-
 .breadcrumb-nav a,
 .breadcrumb-item.active {
   color: var(--page-text);
-  text-decoration: none;
 }
 
 .delete-svg svg {

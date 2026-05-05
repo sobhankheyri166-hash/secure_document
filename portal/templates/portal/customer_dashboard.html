@@ -8,13 +8,8 @@
     <title>Document</title>
 </head>
 <body>
-  <nav class="navbar bg-info">
-    <h2 class="ms-2">Welcome {{ request.user }}</h2>
+  <nav>
+    Welcome {{ user.get_full_name() }}
   </nav>
-  <main class="bg-secondary">
-    <section class="bg-primary d-flex flex-row">
-      
-    </section>
-  </main>
 </body>
 </html>

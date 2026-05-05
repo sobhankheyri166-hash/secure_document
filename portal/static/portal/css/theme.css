@@ -1,5 +1,7 @@
 :root {
+  /*Color Palette*/
   --white-500: #f5f7fb;
+  --blue-200: rgba(240, 249, 254, 0.806);
   --color-layered-gradient: linear-gradient(135deg, #f5f7fb 0%, #1a2e2f 100%);
   --color-basic-gradient: linear-gradient(90deg, #11383c 0%, #1d5c57 100%);
   --color-surface-soft: #eef3f8;
@@ -13,8 +15,7 @@
   --shadow-lg: 0 26px 60px rgba(26, 50, 66, 0.16);
   --shadow-focus: 0 0 0 0.22rem rgba(13, 110, 253, 0.16);
   --shadow-inset: inset 0 1px 2px rgba(20, 46, 49, 0.05);
-  --border-plain: 1px solid rgba(108, 117, 125, 0.2);
-  
+  --border-plain: 1px solid rgba(34, 37, 40, 0.479);
 
   --page-bg: var(--white-500);
   --overlay-bg-base: var(--color-layered-gradient);
@@ -25,17 +26,29 @@
   --page-muted-text: var(--color-text-muted);
   --color-svg: var(--color-text);
   --input-bg: var(--color-surface-soft);
-  --input-text: var(--color-text);
+  --input-text: var(--color-text) !important;
   --box-shadow-sm: var(--shadow-sm);
   --box-shadow: var(--shadow-md);
   --box-shadow-lg: var(--shadow-lg);
   --box-shadow-focus: var(--shadow-focus);
   --box-shadow-inset: var(--shadow-inset);
   --border: var(--border-plain);
+
+
+  /*Global Variables*/
+  .breadcrumb{
+    backdrop-filter: blur(8px);
+
+    & a{
+    text-decoration: none;
+    }
+  }
+
 }
 
 [data-theme="dark"] {
   --white-500: #0f1520;  
+  --blue-200: rgb(69, 72, 73);
   --color-layered-gradient:
     radial-gradient(circle at top left, rgba(232, 189, 120, 0.08), transparent 30%),
     radial-gradient(circle at top right, rgba(101, 175, 156, 0.08), transparent 30%),
@@ -52,7 +65,7 @@
   --shadow-lg: 0 26px 60px rgba(0, 0, 0, 0.42);
   --shadow-focus: 0 0 0 0.22rem rgba(59, 130, 246, 0.22);
   --shadow-inset: inset 0 1px 2px rgba(255, 255, 255, 0.04);
-  --border-plain: 1px solid rgba(215, 226, 236, 0.746);
+  --border-plain: 1px solid rgba(229, 235, 239, 0.826);
 }
 
 .shadow-sm {

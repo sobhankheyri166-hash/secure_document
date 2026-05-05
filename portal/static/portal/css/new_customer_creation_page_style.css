@@ -1,4 +1,4 @@
-html:not([data-theme]) body{
+/* html:not([data-theme]) body{
   --overlay-bg-base:
     radial-gradient(circle at top left, rgba(232, 189, 120, 0.2), transparent 30%),
     radial-gradient(circle at top right, rgba(101, 175, 156, 0.2), transparent 28%),
@@ -18,7 +18,6 @@ html:not([data-theme]) body{
   --avatar-shadow: 0 14px 24px rgba(15, 97, 73, 0.18);
   --field-bg: rgba(255, 255, 255, 0.92);
   --field-focus-bg: white;
-  --field-border: rgba(17, 84, 65, 0.14);
   --field-focus-border: rgba(15, 97, 73, 0.45);
   --field-shadow: inset 0 1px 2px rgba(20, 46, 49, 0.04);
   --field-focus-shadow: 0 0 0 0.25rem rgba(15, 97, 73, 0.12);
@@ -26,7 +25,7 @@ html:not([data-theme]) body{
   --cancel-bg: rgba(255, 255, 255, 0.6);
   --cancel-color: #9b4242;
   --cancel-border: rgba(163, 74, 74, 0.18);
-}
+} */
 
 body{
   --card-bg: var(--panel-bg);
@@ -42,9 +41,9 @@ body{
   --status-pill-bg: var(--input-bg);
   --avatar-ring: var(--panel-bg);
   --avatar-shadow: var(--box-shadow-sm);
+  --field-border: var(--border-plain);
   --field-bg: var(--input-bg);
   --field-focus-bg: var(--input-bg);
-  --field-border: var(--card-border);
   --field-focus-border: var(--brand);
   --field-shadow: var(--box-shadow-inset);
   --field-focus-shadow: var(--box-shadow-focus);
@@ -76,13 +75,8 @@ body{
   margin-bottom: 1.5rem;
 }
 
-.breadcrumb{
-  margin-bottom: 0;
-}
-
 .breadcrumb a{
   color: var(--brand);
-  text-decoration: none;
 }
 
 .breadcrumb,
@@ -325,7 +319,7 @@ form{
 .field-group input{
   width: 100%;
   border-radius: 0.9rem;
-  border: 1px solid var(--field-border);
+  border: var(--field-border);
   padding: 0.88rem 1rem;
   background: var(--field-bg);
   color: var(--input-text);

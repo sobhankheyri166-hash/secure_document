@@ -57,6 +57,7 @@ body{
     --workspace-shadow-lg: var(--box-shadow);
     --workspace-dropdown-shadow: var(--box-shadow);
     --workspace-hover-shadow: var(--box-shadow);
+    --workspace-list-row-color: var(--blue-200);
 
     
     margin: 0;
@@ -347,7 +348,7 @@ a{
 .activity-row{
     padding: 1rem;
     border-radius: 1rem;
-    background: var(--workspace-row-bg);
+    background-color: var(--workspace-list-row-color);
     border: 1px solid var(--workspace-border);
     box-shadow: var(--workspace-shadow-sm);
     color: inherit;

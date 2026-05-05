@@ -181,12 +181,11 @@
       }
 
       .breadcrumb{
-        border: 1px solid var(--hub-card-border);
-        border-radius: 1rem;
-        background: var(--hub-breadcrumb-bg);
-        backdrop-filter: blur(8px);
         box-shadow: var(--hub-breadcrumb-shadow);
+        background: var(--hub-breadcrumb-bg);
         color: var(--hub-text);
+        border: 1px solid var(--hub-card-border);
+        color: var(--label-color);
       }
 
       .text-muted{
@@ -234,7 +233,7 @@
               <p class="text-muted">Modified: {{ item.last_modified }}</p> 
             </div>  
             <div class="request-actions">
-              <a href="" class="action-btn action-btn--edit" data-bs-toggle="tooltip" 
+              <a href="{% url 'customer_request_edit' request_id=item.pk customer_username=item.user.username %}" class="action-btn action-btn--edit" data-bs-toggle="tooltip" 
               data-bs-placement="bottom" aria-label="Edit request" title="Edit">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -254,13 +253,22 @@
                     stroke-linecap="round"
                     stroke-linejoin="round"/>
                 </svg>
-              </a> 
-              <a href="" class="action-btn action-btn--delete" data-bs-toggle="tooltip"
-              data-bs-placement="bottom" aria-label="Delete request" title="Delete">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9.75 3.75h4.5m-9 3h13.5m-1.5 0-1.06 11.14a2.25 2.25 0 0 1-2.24 2.03H10.05a2.25 2.25 0 0 1-2.24-2.03L6.75 6.75m4.5 3.75v5.25m3-5.25v5.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
               </a>
+              <form action="{% url 'request_delete' item.pk %}" method="post">     
+                {% csrf_token %}         
+                <button type="submit" 
+                        class="action-btn action-btn--delete"
+                        data-bs-toggle="tooltip
+                        data-bs-placement="bottom"
+                        aria-label="Delete request"
+                        title="Delete"
+                        onclick="return confirm('Are you sure you want to delete this?');">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9.75 3.75h4.5m-9 3h13.5m-1.5 0-1.06 11.14a2.25 2.25 0 0 1-2.24 2.03H10.05a2.25 2.25 0 0 1-2.24-2.03L6.75 6.75m4.5 3.75v5.25m3-5.25v5.25" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </form>
+
             </div>          
 
           </div>

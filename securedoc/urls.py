@@ -30,11 +30,13 @@ urlpatterns = [
     path('workspace/customers-list/',views.CustomersListView.as_view(),name='customers_list'),
     path('workspace/customers-list/<slug:customer_username>/profile/',views.CustomerProfileUpdateView.as_view(),name='customer_profile_edit'),
     path('workspace/customers-list/<str:customer_username>/profile/reset-password/',views.PasswordResetView.as_view(),name='admin_password_reset'),
-    path('workspace/customers-list/<str:customer_username>/profile/delete-customer/',views.customer_delete,name='delete_customer'),
+    path('workspace/customers-list/<str:customer_username>/delete/',views.customer_delete,name='delete_customer'),
     path('workspace/customers-list/add-new-user/',views.CustomerCreationView.as_view(),name='add_customer'),
     path('workspace/add-new-request/',views.NewRequestView.as_view(),name='new_request'),
     path('workspace/<str:customer_username>/requests-hub/',views.CustomerRequestsHub.as_view(),name='customer_requests_hub'),
-    path('workspace/<str:customer_username>/requests-hub/<int:request_id>/edit',views.EditRequestView.as_view(),name='customer_request_edit'),
+    path('workspace/<str:customer_username>/requests-hub/<int:request_id>/edit', views.EditRequestView.as_view(), name='customer_request_edit'),
+    path('workspace/requests-hub/<int:request_id>/delete/', views.request_delete, name='request_delete'),
+    path('dashboard/<str:customer_username>/the-hub/',views.CustomerDashboardHub.as_view(), name='customer_hub')
 ]
 
 if settings.DEBUG:

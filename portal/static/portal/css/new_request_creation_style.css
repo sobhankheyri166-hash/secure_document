@@ -1,58 +1,53 @@
 html:not([data-theme]) body {
-  --request-page-bg:
-    radial-gradient(circle at top left, rgba(137, 211, 159, 0.55), transparent 30%),
-    linear-gradient(180deg, #f4fbf5 0%, #d6efd9 100%);
-  --hero-green: #1f7a53;
-  --hero-green-deep: #0f5132;
-  --hero-accent: #89d39f;
-  --surface: rgba(255, 255, 255, 0.94);
-  --surface-soft: rgba(244, 250, 246, 0.92);
-  --field-bg: rgba(255, 255, 255, 0.82);
-  --field-bg-strong: rgba(255, 255, 255, 0.92);
-  --field-text: #173726;
-  --field-border: rgba(31, 122, 83, 0.16);
-  --field-focus-border: rgba(31, 122, 83, 0.45);
-  --field-focus-shadow: 0 0 0 0.22rem rgba(31, 122, 83, 0.14);
-  --border-soft: rgba(31, 122, 83, 0.16);
-  --selection-border: rgba(31, 122, 83, 0.22);
-  --selection-bg: linear-gradient(135deg, rgba(137, 211, 159, 0.15), rgba(255, 255, 255, 0.92));
-  --text-main: #173726;
-  --text-muted: #53715f;
-  --label-color: #0f5132;
-  --panel-shadow: 0 24px 60px rgba(15, 81, 50, 0.12);
-  --primary-shadow: 0 14px 24px rgba(31, 122, 83, 0.18);
-  --secondary-bg: rgba(255, 255, 255, 0.75);
-  --secondary-border: rgba(15, 81, 50, 0.18);
-  --dropdown-bg: #fff;
-  --dropdown-hover-bg: rgba(137, 211, 159, 0.14);
-  --input-bg: white;
-}
-
-body {
   --request-page-bg: var(--overlay-bg-base);
-  --hero-green: #3fbc82;
-  --hero-green-deep: #123f35;
-  --hero-accent: #e8bd78;
+  --hero-bg: var(--overlay-bg-header);
   --surface: var(--panel-bg);
   --surface-soft: var(--panel-soft-bg);
   --field-bg: var(--input-bg);
   --field-bg-strong: var(--input-bg);
   --field-text: var(--input-text);
-  --field-border: rgba(215, 226, 236, 0.22);
+  --field-border: var(--color-secondary);
   --field-focus-border: var(--color-primary);
   --field-focus-shadow: var(--box-shadow-focus);
-  --border-soft: rgba(215, 226, 236, 0.2);
-  --selection-border: rgba(215, 226, 236, 0.22);
-  --selection-bg: linear-gradient(135deg, rgba(63, 188, 130, 0.12), rgba(35, 45, 61, 0.94));
+  --border-soft: var(--color-secondary);
   --text-main: var(--page-text);
   --text-muted: var(--page-muted-text);
-  --label-color: #8ee0b0;
+  --label-color: var(--page-text);
+  --hero-text: var(--white-500);
   --panel-shadow: var(--box-shadow-lg);
-  --primary-shadow: 0 14px 24px rgba(0, 0, 0, 0.24);
+  --primary-shadow: var(--box-shadow-sm);
   --secondary-bg: var(--input-bg);
-  --secondary-border: rgba(215, 226, 236, 0.22);
+  --secondary-border: var(--color-secondary);
   --dropdown-bg: var(--panel-bg);
-  --dropdown-hover-bg: rgba(59, 130, 246, 0.16);
+  --dropdown-hover-bg: var(--input-bg);
+}
+
+body {
+  --request-page-bg: var(--overlay-bg-base);
+  --hero-bg: var(--overlay-bg-header);
+  --surface: var(--panel-bg);
+  --surface-soft: var(--panel-soft-bg);
+  --field-bg: var(--input-bg);
+  --field-bg-strong: var(--input-bg);
+  --field-text: var(--input-text);
+  --field-border: var(--color-secondary);
+  --field-focus-border: var(--color-primary);
+  --field-focus-shadow: var(--box-shadow-focus);
+  --border-soft: var(--color-secondary);
+  --text-main: var(--page-text);
+  --text-muted: var(--page-muted-text);
+  --label-color: var(--page-text);
+  --hero-text: var(--white-500);
+  --panel-shadow: var(--box-shadow-lg);
+  --primary-shadow: var(--box-shadow-sm);
+  --secondary-bg: var(--input-bg);
+  --secondary-border: var(--color-secondary);
+  --dropdown-bg: var(--panel-bg);
+  --dropdown-hover-bg: var(--input-bg);
+}
+
+[data-theme="dark"] body {
+  --hero-text: var(--color-text);
 }
 
 body {
@@ -69,20 +64,6 @@ body {
   padding: 2rem 1rem 3rem;
 }
 
-.breadcrumb,
-.breadcrumb a,
-.breadcrumb-item {
-  color: var(--text-muted);
-}
-
-.breadcrumb a {
-  text-decoration: none;
-}
-
-.breadcrumb a:hover {
-  color: var(--label-color);
-}
-
 .request-panel {
   overflow: hidden;
   border: 1px solid var(--border-soft);
@@ -94,10 +75,8 @@ body {
 .hero-panel {
   position: relative;
   padding: 2.5rem 2rem;
-  color: #fff;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 40%),
-    linear-gradient(135deg, var(--hero-green-deep), var(--hero-green));
+  color: var(--hero-text);
+  background: var(--hero-bg);
 }
 
 .hero-panel::after {
@@ -105,22 +84,23 @@ body {
   position: absolute;
   top: -2rem;
   right: -2rem;
-  width: 10rem;
-  height: 10rem;
+  width: 8rem;
+  height: 8rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--input-bg);
 }
 
 .hero-kicker {
   display: inline-flex;
   align-items: center;
   padding: 0.4rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--color-surface-soft);
   border-radius: 999px;
   font-size: 0.85rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--page-text);
+  background: var(--input-bg);
 }
 
 .hero-panel h1 {
@@ -135,7 +115,7 @@ body {
   max-width: 48ch;
   margin: 0;
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.84);
+  color: var(--hero-text);
 }
 
 .form-panel {
@@ -169,7 +149,7 @@ body {
 .field-card textarea,
 .field-card select {
   width: 100%;
-  border-color: var(--field-border) !important;
+  box-shadow: var(--box-shadow-inset);
   background-color: var(--field-bg-strong) !important;
   color: var(--field-text) !important;
 }
@@ -177,6 +157,7 @@ body {
 .field-card input:focus,
 .field-card textarea:focus,
 .field-card select:focus {
+  outline: 0;
   border-color: var(--field-focus-border) !important;
   box-shadow: var(--field-focus-shadow) !important;
 }
@@ -195,15 +176,17 @@ body {
   background-color: var(--input-bg);
 }
 
+form input, form textarea, form select {
+  border: var(--border-plain) !important;
+}
+
 .alert, .alert-ul{
-  background-color: #f8d7da !important;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--color-danger);
 }
 
 .selection-card {
-  padding: 1.25rem;
-  border: 1px solid var(--selection-border);
-  border-radius: 1.35rem;
-  background: var(--selection-bg);
+  padding-bottom: 1rem;
 }
 
 .selection-card label {
@@ -236,7 +219,8 @@ body {
 .ts-wrapper .ts-control,
 .ts-wrapper.single .ts-control,
 .ts-dropdown {
-  border-color: var(--field-border) !important;
+  border: 1px solid var(--field-border) !important;
+  border-radius: 0.9rem;
   background: var(--field-bg-strong) !important;
   color: var(--field-text) !important;
 }
@@ -290,8 +274,8 @@ body {
 
 .action-btn-primary {
   border: none;
-  color: #fff;
-  background: linear-gradient(135deg, var(--hero-green), #2f9b69);
+  color: var(--hero-text);
+  background: var(--hero-bg);
   box-shadow: var(--primary-shadow);
 }
 

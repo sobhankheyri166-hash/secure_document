@@ -13,7 +13,7 @@
     </script>
     <style>
       html:not([data-theme]) body{
-        --edit-page-bg: white;
+        --edit-page-bg: linear-gradient(white,teal,green);
         --edit-page-text: #212529;
         --edit-form-bg: transparent;
         --edit-form-border: transparent;
@@ -26,6 +26,7 @@
       }
 
       body{
+        --overlay-bg-base: linear-gradient(rgb(159, 244, 133),teal,green);
         --edit-page-bg: var(--overlay-bg-base);
         --edit-page-text: var(--page-text);
         --edit-form-bg: var(--panel-bg);
@@ -33,7 +34,7 @@
         --edit-form-shadow: var(--box-shadow);
         --edit-field-bg: var(--input-bg);
         --edit-field-text: var(--input-text);
-        --edit-field-border: rgba(108, 117, 125, 0.28);
+        --edit-field-border: rgba(78, 84, 90, 0.554);
         --edit-save-color: var(--color-secondary);
         --edit-back-color: var(--color-primary);
       }
@@ -44,6 +45,10 @@
         padding: 1rem;
         background: var(--edit-page-bg);
         color: var(--edit-page-text);
+      }
+
+      h1{
+        color: var(--page-text);
       }
 
       form{
@@ -67,6 +72,7 @@
         background: var(--edit-field-bg) !important;
         color: var(--edit-field-text) !important;
         border-color: var(--edit-field-border) !important;
+        margin-bottom: 1rem;
       }
 
       input:focus,
@@ -95,18 +101,39 @@
         background: var(--edit-back-color);
         color: white;
       }
+
+      .btns-wrapper{
+        margin-top: 2rem;
+      }
+
+      .btns-wrapper a, .btns-wrapper button{
+        width: 100%;
+      }
+
     </style>
 
-    <title>Document</title>
+    <title>Edit Request</title>
 </head>
 <body>
-  <form action="" method="post" class="form-check">
+  <div class="breadcrumb mb-4">
+    {% include 'portal/partials/workspace_breadcrumb_item.html' %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'customer_requests_hub' form.instance.user.username %}">Request's Hub</a>
+    </li>
+    <li class="breadcrumb-item active">Edit Request</li>
+  </div>
+
+  <form method="post" class="form-check">
+    <h1 class="text-center mb-3">Details</h1>
     {% csrf_token %}
-    {{{ form }}}
-    <button type="submit" class="btn btn-outline-secondary">Save</button>
-    <a href="{% url 'customer_requests_hub' form.instance.user.username %}" class="btn btn-outline-info">
-      Back
-    </a>
+    {{ form }}
+    <div class="d-flex flex-lg-row flex-md-row flex-column gap-2 btns-wrapper">
+      <button type="submit" class="btn btn-outline-secondary">Save</button>
+      <a href="{% url 'customer_requests_hub' form.instance.user.username %}" class="btn btn-outline-info">
+        Back
+      </a>      
+    </div>
+
   </form>
 </body>
 </html>
